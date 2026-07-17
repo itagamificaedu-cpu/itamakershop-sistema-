@@ -65,17 +65,17 @@ export default function ProfilePage() {
       //   headers: { "Content-Type": "application/json" },
       //   body: JSON.stringify(formData),
       // });
-      
+
       // Simulate API delay
       await new Promise((resolve) => setTimeout(resolve, 1000));
-      
-      setMessage({ 
-        text: "Profile updated successfully", 
-        type: "success" 
+
+      setMessage({
+        text: "Perfil atualizado com sucesso",
+        type: "success"
       });
     } catch {
       setMessage({
-        text: "Failed to update profile",
+        text: "Falha ao atualizar perfil",
         type: "error"
       });
     } finally {
@@ -95,9 +95,9 @@ export default function ProfilePage() {
     <div className="container max-w-2xl py-12">
       <div className="space-y-8">
         <div>
-          <h1 className="text-3xl font-bold">My Profile</h1>
+          <h1 className="text-3xl font-bold">Meu Perfil</h1>
           <p className="text-muted-foreground mt-2">
-            Manage your account information
+            Gerencie as informações da sua conta
           </p>
         </div>
 
@@ -118,7 +118,7 @@ export default function ProfilePage() {
             <form onSubmit={handleSubmit} className="space-y-4">
               <div className="space-y-2">
                 <label htmlFor="name" className="text-sm font-medium">
-                  Name
+                  Nome
                 </label>
                 <Input
                   id="name"
@@ -141,7 +141,7 @@ export default function ProfilePage() {
                   disabled
                 />
                 <p className="text-xs text-muted-foreground">
-                  Email cannot be changed
+                  O email não pode ser alterado
                 </p>
               </div>
 
@@ -149,10 +149,10 @@ export default function ProfilePage() {
                 {isLoading ? (
                   <>
                     <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-background border-r-transparent" />
-                    Saving...
+                    Salvando...
                   </>
                 ) : (
-                  "Save Changes"
+                  "Salvar Alterações"
                 )}
               </Button>
             </form>
@@ -200,9 +200,9 @@ export default function ProfilePage() {
           </div>
 
           <div className="bg-muted/50 p-6 rounded-lg">
-            <h2 className="text-xl font-semibold mb-4">Change Password</h2>
+            <h2 className="text-xl font-semibold mb-4">Alterar Senha</h2>
             <Button variant="outline" className="w-full" disabled>
-              Coming Soon
+              Em Breve
             </Button>
           </div>
         </div>

@@ -32,20 +32,20 @@ export default function NewsletterSignup() {
       <form onSubmit={handleSubmit} className="flex w-full max-w-sm mx-auto items-center space-x-2">
         <Input
           type="email"
-          placeholder="Enter your email"
+          placeholder="Digite seu email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
           required
           className="flex-1 bg-white/10 text-white placeholder:text-white/60 border-white/20"
         />
         <Button type="submit" disabled={loading}>
-          {loading ? "Subscribing..." : "Subscribe"}
+          {loading ? "Inscrevendo..." : "Inscrever-se"}
         </Button>
       </form>
-      
+
       {success && (
         <div className="mt-2 text-center text-sm">
-          Thank you for subscribing! Check your email for the discount code.
+          Obrigado por se inscrever! Confira seu email para o cupom de desconto.
         </div>
       )}
     </div>

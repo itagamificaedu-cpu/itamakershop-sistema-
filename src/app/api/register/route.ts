@@ -5,9 +5,9 @@ import { z } from "zod";
 
 // Validação com Zod
 const userSchema = z.object({
-  name: z.string().min(2, "Name must be at least 2 characters"),
-  email: z.string().email("Invalid email address"),
-  password: z.string().min(8, "Password must be at least 8 characters"),
+  name: z.string().min(2, "Nome deve ter pelo menos 2 caracteres"),
+  email: z.string().email("Endereço de email inválido"),
+  password: z.string().min(8, "Senha deve ter pelo menos 8 caracteres"),
 });
 
 export async function POST(req: Request) {
@@ -18,7 +18,7 @@ export async function POST(req: Request) {
     const result = userSchema.safeParse(body);
     if (!result.success) {
       return NextResponse.json(
-        { message: "Invalid data", errors: result.error.errors },
+        { message: "Dados inválidos", errors: result.error.errors },
         { status: 400 }
       );
     }
@@ -32,7 +32,7 @@ export async function POST(req: Request) {
 
     if (existingUser) {
       return NextResponse.json(
-        { message: "Email already in use" },
+        { message: "Email já está em uso" },
         { status: 400 }
       );
     }
@@ -56,7 +56,7 @@ export async function POST(req: Request) {
 
     return NextResponse.json(
       {
-        message: "User registered successfully",
+        message: "Usuário cadastrado com sucesso",
         user: userWithoutPassword,
       },
       { status: 201 }
@@ -64,8 +64,8 @@ export async function POST(req: Request) {
   } catch (error) {
     console.error("Registration error:", error);
     return NextResponse.json(
-      { message: "Something went wrong" },
+      { message: "Algo deu errado" },
       { status: 500 }
     );
   }
-} 
+}

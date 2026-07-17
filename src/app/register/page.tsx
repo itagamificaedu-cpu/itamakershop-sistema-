@@ -28,7 +28,7 @@ export default function RegisterPage() {
     setError("");
 
     if (formData.password !== formData.confirmPassword) {
-      setError("Passwords do not match");
+      setError("As senhas não coincidem");
       setIsLoading(false);
       return;
     }
@@ -49,13 +49,12 @@ export default function RegisterPage() {
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.message || "Something went wrong");
+        throw new Error(data.message || "Algo deu errado");
       }
 
-      // Redirect to login page on successful registration
       router.push("/login?registered=true");
     } catch (error) {
-      setError(error instanceof Error ? error.message : "Registration failed");
+      setError(error instanceof Error ? error.message : "Falha no cadastro");
       setIsLoading(false);
     }
   };
@@ -64,8 +63,8 @@ export default function RegisterPage() {
     <div className="container max-w-md py-24">
       <div className="space-y-6">
         <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold">Create an Account</h1>
-          <p className="text-gray-500">Enter your information to create an account</p>
+          <h1 className="text-3xl font-bold">Criar Conta</h1>
+          <p className="text-gray-500">Preencha seus dados para criar uma conta</p>
         </div>
 
         <div className="space-y-4">
@@ -75,21 +74,21 @@ export default function RegisterPage() {
                 {error}
               </div>
             )}
-            
+
             <div className="space-y-2">
               <label htmlFor="name" className="text-sm font-medium leading-none">
-                Name
+                Nome
               </label>
               <Input
                 id="name"
                 name="name"
                 value={formData.name}
                 onChange={handleChange}
-                placeholder="John Doe"
+                placeholder="João da Silva"
                 required
               />
             </div>
-            
+
             <div className="space-y-2">
               <label htmlFor="email" className="text-sm font-medium leading-none">
                 Email
@@ -100,14 +99,14 @@ export default function RegisterPage() {
                 type="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="name@example.com"
+                placeholder="nome@exemplo.com"
                 required
               />
             </div>
-            
+
             <div className="space-y-2">
               <label htmlFor="password" className="text-sm font-medium leading-none">
-                Password
+                Senha
               </label>
               <Input
                 id="password"
@@ -118,10 +117,10 @@ export default function RegisterPage() {
                 required
               />
             </div>
-            
+
             <div className="space-y-2">
               <label htmlFor="confirmPassword" className="text-sm font-medium leading-none">
-                Confirm Password
+                Confirmar Senha
               </label>
               <Input
                 id="confirmPassword"
@@ -132,24 +131,24 @@ export default function RegisterPage() {
                 required
               />
             </div>
-            
+
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? (
                 <>
                   <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-background border-r-transparent" />
-                  Registering...
+                  Cadastrando...
                 </>
               ) : (
-                "Register"
+                "Cadastrar"
               )}
             </Button>
           </form>
 
           <div className="text-center text-sm">
             <p>
-              Already have an account?{" "}
+              Já tem uma conta?{" "}
               <Link href="/login" className="text-primary hover:underline">
-                Sign in
+                Entrar
               </Link>
             </p>
           </div>
@@ -157,4 +156,4 @@ export default function RegisterPage() {
       </div>
     </div>
   );
-} 
+}

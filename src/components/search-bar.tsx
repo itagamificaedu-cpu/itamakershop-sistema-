@@ -28,7 +28,7 @@ export default function SearchBar({ onClose }: SearchBarProps) {
         <Search className="absolute left-3 top-1/2 h-4 w-4 -translate-y-1/2 text-muted-foreground" />
         <Input
           type="search"
-          placeholder="Search products..."
+          placeholder="Buscar produtos..."
           className="w-full bg-background pl-10 pr-10"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
@@ -42,7 +42,7 @@ export default function SearchBar({ onClose }: SearchBarProps) {
           onClick={onClose}
         >
           <X className="h-4 w-4" />
-          <span className="sr-only">Close search</span>
+          <span className="sr-only">Fechar busca</span>
         </Button>
       </div>
     </form>

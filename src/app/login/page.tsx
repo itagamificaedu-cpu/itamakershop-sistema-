@@ -34,7 +34,7 @@ export default function LoginPage() {
       });
 
       if (result?.error) {
-        setError("Invalid email or password");
+        setError("Email ou senha inválidos");
         setIsLoading(false);
         return;
       }
@@ -44,7 +44,7 @@ export default function LoginPage() {
         router.refresh();
       }
     } catch {
-      setError("Something went wrong. Please try again.");
+      setError("Algo deu errado. Tente novamente.");
       setIsLoading(false);
     }
   };
@@ -53,8 +53,8 @@ export default function LoginPage() {
     <div className="container max-w-md py-24">
       <div className="space-y-6">
         <div className="space-y-2 text-center">
-          <h1 className="text-3xl font-bold">Login</h1>
-          <p className="text-gray-500">Enter your credentials to access your account</p>
+          <h1 className="text-3xl font-bold">Entrar</h1>
+          <p className="text-gray-500">Digite suas credenciais para acessar sua conta</p>
         </div>
 
         <div className="space-y-4">
@@ -64,7 +64,7 @@ export default function LoginPage() {
                 {error}
               </div>
             )}
-            
+
             <div className="space-y-2">
               <label htmlFor="email" className="text-sm font-medium leading-none">
                 Email
@@ -75,18 +75,18 @@ export default function LoginPage() {
                 type="email"
                 value={formData.email}
                 onChange={handleChange}
-                placeholder="name@example.com"
+                placeholder="nome@exemplo.com"
                 required
               />
             </div>
-            
+
             <div className="space-y-2">
               <div className="flex items-center justify-between">
                 <label htmlFor="password" className="text-sm font-medium leading-none">
-                  Password
+                  Senha
                 </label>
                 <Link href="#" className="text-sm text-primary hover:underline">
-                  Forgot password?
+                  Esqueceu a senha?
                 </Link>
               </div>
               <Input
@@ -98,24 +98,24 @@ export default function LoginPage() {
                 required
               />
             </div>
-            
+
             <Button type="submit" className="w-full" disabled={isLoading}>
               {isLoading ? (
                 <>
                   <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-background border-r-transparent" />
-                  Signing in...
+                  Entrando...
                 </>
               ) : (
-                "Sign In"
+                "Entrar"
               )}
             </Button>
           </form>
 
           <div className="text-center text-sm">
             <p>
-              Don&apos;t have an account?{" "}
+              Não tem uma conta?{" "}
               <Link href="/register" className="text-primary hover:underline">
-                Sign up
+                Cadastre-se
               </Link>
             </p>
           </div>
@@ -125,16 +125,15 @@ export default function LoginPage() {
               <div className="w-full border-t border-gray-200" />
             </div>
             <div className="relative flex justify-center text-xs uppercase">
-              <span className="bg-background px-2 text-gray-500">Or continue with</span>
+              <span className="bg-background px-2 text-gray-500">Ou continue com</span>
             </div>
           </div>
 
           <Button variant="outline" className="w-full" disabled>
-            {/* You would typically add social login options here */}
-            Google (Coming Soon)
+            Google (em breve)
           </Button>
         </div>
       </div>
     </div>
   );
-} 
+}

@@ -26,7 +26,7 @@ export default function Header() {
             ) : (
               <Menu className="h-6 w-6" />
             )}
-            <span className="sr-only">Toggle Menu</span>
+            <span className="sr-only">Abrir Menu</span>
           </Button>
           <Link href="/" className="text-xl font-bold">
             ItaMakerShop

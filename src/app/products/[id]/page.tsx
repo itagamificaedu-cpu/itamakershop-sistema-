@@ -52,13 +52,13 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
         <ol className="flex text-sm">
           <li className="flex items-center">
             <Link href="/" className="text-muted-foreground hover:text-foreground">
-              Home
+              Início
             </Link>
             <span className="mx-2 text-muted-foreground">/</span>
           </li>
           <li className="flex items-center">
             <Link href="/products" className="text-muted-foreground hover:text-foreground">
-              Products
+              Produtos
             </Link>
             <span className="mx-2 text-muted-foreground">/</span>
           </li>
@@ -102,14 +102,14 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
               ))}
             </div>
             <span className="text-sm font-medium">
-              {product.rating?.toFixed(1)} ({product.reviews.length} reviews)
+              {product.rating?.toFixed(1)} ({product.reviews.length} avaliações)
             </span>
           </div>
 
           <p className="text-xl font-bold">{formatPrice(product.price)}</p>
 
           <div>
-            <h2 className="text-lg font-semibold">Description</h2>
+            <h2 className="text-lg font-semibold">Descrição</h2>
             <p className="mt-2 text-gray-500">{product.description}</p>
           </div>
 
@@ -131,7 +131,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
               <div className="h-2 w-2 rounded-full bg-green-500"></div>
               <p className="text-sm">
                 <span className="font-medium">
-                  {product.inventory > 0 ? "In Stock" : "Out of Stock"}
+                  {product.inventory > 0 ? "Em Estoque" : "Fora de Estoque"}
                 </span>
               </p>
             </div>
@@ -141,8 +141,8 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
 
       {/* Reviews section */}
       <div className="mt-16">
-        <h2 className="text-2xl font-bold">Customer Reviews</h2>
-        
+        <h2 className="text-2xl font-bold">Avaliações de Clientes</h2>
+
         <div className="mt-6 space-y-8">
           {product.reviews.length > 0 ? (
             product.reviews.map((review) => (
@@ -164,7 +164,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
               </div>
             ))
           ) : (
-            <p className="text-gray-500">No reviews yet for this product.</p>
+            <p className="text-gray-500">Ainda não há avaliações para este produto.</p>
           )}
         </div>
       </div>

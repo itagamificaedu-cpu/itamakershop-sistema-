@@ -1,0 +1,30 @@
+# Deploy no VPS — rede e volumes isolados, nada compartilhado com o CEITEC ID System
+# ou qualquer outro projeto do ecossistema
+services:
+  itamakershop_app:
+    build: .
+    restart: unless-stopped
+    networks: [itamakershop_network]
+    env_file: .env
+    ports:
+      - "8013:3000"
+    depends_on:
+      - itamakershop_db
+
+  itamakershop_db:
+    image: postgres:16
+    restart: unless-stopped
+    networks: [itamakershop_network]
+    volumes:
+      - itamakershop_pgdata:/var/lib/postgresql/data
+    env_file: .env
+    environment:
+      POSTGRES_USER: itamakershop
+      POSTGRES_DB: itamakershop
+
+networks:
+  itamakershop_network:
+    driver: bridge
+
+volumes:
+  itamakershop_pgdata:

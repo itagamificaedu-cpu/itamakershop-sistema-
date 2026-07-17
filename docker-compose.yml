@@ -8,6 +8,8 @@ services:
     env_file: .env
     ports:
       - "8013:3000"
+    volumes:
+      - itamakershop_uploads:/app/public/uploads
     depends_on:
       - itamakershop_db
 
@@ -28,3 +30,4 @@ networks:
 
 volumes:
   itamakershop_pgdata:
+  itamakershop_uploads:

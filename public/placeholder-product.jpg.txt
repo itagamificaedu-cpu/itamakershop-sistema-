@@ -1,0 +1,3 @@
+Este arquivo deveria ser uma imagem JPG.
+
+Para ter produtos visíveis na loja, substitua este arquivo .txt por uma imagem real chamada placeholder-product.jpg. 

@@ -34,7 +34,7 @@ export default function Header() {
           </Button>
           <Link href="/" className="flex items-center gap-2.5 group">
             <span className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-full ring-2 ring-primary/40 shadow-sm transition-transform group-hover:scale-105">
-              <Image src="/logo.png" alt="ItaMakerShop" fill className="object-cover scale-125" />
+              <Image src="/logo.png" alt="ItaMakerShop" fill className="object-cover scale-105" />
             </span>
             <span className="font-heading text-lg font-bold tracking-tight">
               Ita<span className="text-primary">MakerShop</span>

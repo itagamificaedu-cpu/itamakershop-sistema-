@@ -80,7 +80,7 @@ export default async function Home() {
                     src="/logo.png"
                     alt="ItaMakerShop"
                     fill
-                    className="object-cover scale-125"
+                    className="object-cover scale-105"
                     priority
                   />
                 </div>

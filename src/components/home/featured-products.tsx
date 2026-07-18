@@ -36,14 +36,16 @@ export default function FeaturedProducts({ products }: { products: FeaturedProdu
           className="group overflow-hidden border-border/70 transition-shadow hover:shadow-lg"
         >
           <Link href={`/products/${product.id}`}>
-            <div className="relative aspect-square overflow-hidden bg-secondary">
-              <SafeImage
-                src={product.images[0]}
-                alt={product.name}
-                fill
-                className="object-cover transition-transform duration-300 group-hover:scale-105"
-              />
-              <div className="absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/10" />
+            <div className="relative flex aspect-square items-center justify-center overflow-hidden bg-secondary p-6">
+              <div className="relative h-full w-full overflow-hidden rounded-full border border-border shadow-sm">
+                <SafeImage
+                  src={product.images[0]}
+                  alt={product.name}
+                  fill
+                  className="object-cover transition-transform duration-300 group-hover:scale-105"
+                />
+                <div className="absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/10" />
+              </div>
             </div>
           </Link>
           <CardHeader className="p-4 pb-0">

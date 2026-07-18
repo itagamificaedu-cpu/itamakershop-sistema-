@@ -1,7 +1,8 @@
 "use client"
 
 import Link from "next/link"
-import { ShoppingCart, Menu, Search, Shield, User, X, Printer } from "lucide-react"
+import Image from "next/image"
+import { ShoppingCart, Menu, Search, Shield, User, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { useSession } from "next-auth/react"
@@ -32,8 +33,8 @@ export default function Header() {
             <span className="sr-only">Abrir Menu</span>
           </Button>
           <Link href="/" className="flex items-center gap-2.5 group">
-            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm transition-transform group-hover:scale-105">
-              <Printer className="h-5 w-5" strokeWidth={2} />
+            <span className="relative flex h-9 w-9 items-center justify-center overflow-hidden rounded-full ring-2 ring-primary/40 shadow-sm transition-transform group-hover:scale-105">
+              <Image src="/logo.png" alt="ItaMakerShop" fill className="object-cover scale-125" />
             </span>
             <span className="font-heading text-lg font-bold tracking-tight">
               Ita<span className="text-primary">MakerShop</span>

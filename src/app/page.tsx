@@ -1,5 +1,6 @@
 import Link from "next/link"
-import { Printer, Zap, ArrowRight, Sparkles, ShieldCheck, Truck } from "lucide-react"
+import Image from "next/image"
+import { ArrowRight, Sparkles, ShieldCheck, Truck } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import FeaturedProducts from "@/components/home/featured-products"
 import CategoryGrid from "@/components/home/category-grid"
@@ -74,11 +75,14 @@ export default async function Home() {
             <div className="flex items-center justify-center">
               <div className="relative h-[280px] w-[280px] md:h-[360px] md:w-[360px]">
                 <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary to-orange-700 opacity-25 blur-3xl" />
-                <div className="relative flex h-full w-full items-center justify-center rounded-full border border-border bg-card shadow-xl">
-                  <div className="flex items-center gap-6">
-                    <Printer className="h-16 w-16 text-primary md:h-24 md:w-24" strokeWidth={1.5} />
-                    <Zap className="h-14 w-14 text-foreground/70 md:h-20 md:w-20" strokeWidth={1.5} />
-                  </div>
+                <div className="relative h-full w-full overflow-hidden rounded-full border border-border shadow-xl">
+                  <Image
+                    src="/logo.png"
+                    alt="ItaMakerShop"
+                    fill
+                    className="object-cover scale-125"
+                    priority
+                  />
                 </div>
               </div>
             </div>

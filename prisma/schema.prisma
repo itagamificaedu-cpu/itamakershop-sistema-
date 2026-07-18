@@ -146,6 +146,15 @@ model Review {
   product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
 }
 
+// Armazena o token OAuth do Melhor Envio (linha única — id fixo "singleton")
+model MelhorEnvioToken {
+  id           String   @id @default("singleton")
+  accessToken  String
+  refreshToken String
+  expiresAt    DateTime
+  updatedAt    DateTime @updatedAt
+}
+
 // WishlistItem model
 model WishlistItem {
   id        String  @id @default(cuid())

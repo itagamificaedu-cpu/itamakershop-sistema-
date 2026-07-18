@@ -65,7 +65,8 @@ export async function quoteMelhorEnvioFreight(
   destinationCep: string,
   items: CartItemForShipping[]
 ): Promise<{ price: number; carrier: string; deliveryDays: number | null } | null> {
-  const token = process.env.MELHOR_ENVIO_TOKEN;
+  const { getMelhorEnvioAccessToken } = await import("@/lib/melhor-envio-auth");
+  const token = await getMelhorEnvioAccessToken();
   if (!token) return null;
 
   const clean = normalizeCep(destinationCep);

@@ -9,7 +9,7 @@ services:
     ports:
       - "8013:3000"
     volumes:
-      - itamakershop_uploads:/app/public/uploads
+      - itamakershop_uploads:/app/uploads
     depends_on:
       - itamakershop_db
 

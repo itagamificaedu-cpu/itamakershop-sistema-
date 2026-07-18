@@ -32,7 +32,7 @@ export async function POST(req: Request) {
 
   const extension = file.type.split("/")[1];
   const filename = `${crypto.randomUUID()}.${extension}`;
-  const uploadDir = path.join(process.cwd(), "public", "uploads");
+  const uploadDir = path.join(process.cwd(), "uploads");
   await mkdir(uploadDir, { recursive: true });
 
   const bytes = await file.arrayBuffer();

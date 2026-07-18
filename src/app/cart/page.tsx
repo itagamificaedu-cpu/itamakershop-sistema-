@@ -75,8 +75,6 @@ export default function CartPage() {
     cartItems.reduce((total, item) => total + item.product.price * item.quantity, 0);
 
   const subtotal = calculateSubtotal();
-  const shipping = subtotal > 0 ? 10 : 0;
-  const total = subtotal + shipping;
 
   return (
     <div className="container py-12">
@@ -168,13 +166,13 @@ export default function CartPage() {
                 <span className="text-muted-foreground">Subtotal</span>
                 <span>{formatPrice(subtotal)}</span>
               </div>
-              <div className="flex justify-between">
-                <span className="text-muted-foreground">Frete</span>
-                <span>{formatPrice(shipping)}</span>
+              <div className="flex justify-between text-sm text-muted-foreground">
+                <span>Frete</span>
+                <span>Calculado no checkout</span>
               </div>
               <div className="border-t pt-3 flex justify-between font-medium">
                 <span>Total</span>
-                <span>{formatPrice(total)}</span>
+                <span>{formatPrice(subtotal)}</span>
               </div>
             </div>
             <Button className="w-full mt-6" size="lg" asChild>

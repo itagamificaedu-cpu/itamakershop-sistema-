@@ -26,6 +26,14 @@ export default async function AdminPedidosPage() {
                   <div className="text-sm text-muted-foreground">
                     {order.user.name || order.user.email} · {formatDate(order.createdAt)}
                   </div>
+                  <div className="text-xs text-muted-foreground mt-0.5">
+                    {order.deliveryMethod === "PICKUP"
+                      ? "Retirada na loja"
+                      : order.deliveryMethod === "LOCAL"
+                      ? "Entrega local (Itapipoca)"
+                      : "Envio pelos Correios"}
+                    {order.shippingCost > 0 && ` · Frete: ${formatPrice(order.shippingCost)}`}
+                  </div>
                 </div>
                 <div className="flex items-center gap-3">
                   <span

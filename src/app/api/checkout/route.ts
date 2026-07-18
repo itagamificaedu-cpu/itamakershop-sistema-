@@ -4,16 +4,22 @@ import { Preference } from "mercadopago";
 import { authOptions } from "@/lib/auth";
 import { prisma } from "@/lib/prisma";
 import { getMpClient } from "@/lib/mercadopago";
+import {
+  isLocalDelivery,
+  quoteMelhorEnvioFreight,
+  LOCAL_DELIVERY_FEE,
+} from "@/lib/shipping";
 import { z } from "zod";
 
 const shippingSchema = z.object({
   firstName: z.string().min(1),
   lastName: z.string().min(1),
   email: z.string().email(),
-  address: z.string().min(1),
-  city: z.string().min(1),
-  state: z.string().min(1),
+  address: z.string().optional().default(""),
+  city: z.string().optional().default(""),
+  state: z.string().optional().default(""),
   postalCode: z.string().min(1),
+  deliveryMethod: z.enum(["PICKUP", "LOCAL", "SHIPPING"]),
 });
 
 export async function POST(req: Request) {
@@ -38,6 +44,13 @@ export async function POST(req: Request) {
     }
 
     const shipping = validation.data;
+
+    if (shipping.deliveryMethod !== "PICKUP" && !shipping.address) {
+      return NextResponse.json(
+        { message: "Endereço de entrega obrigatório" },
+        { status: 400 }
+      );
+    }
 
     const cartItems = await prisma.cartItem.findMany({
       where: { cartId: session.user.id },
@@ -64,7 +77,39 @@ export async function POST(req: Request) {
       (sum, item) => sum + item.product.price * item.quantity,
       0
     );
-    const shippingCost = subtotal > 100 ? 0 : 10;
+
+    // Frete NUNCA é confiado do cliente — sempre recalculado no servidor
+    // para o método de entrega escolhido, evitando manipulação do valor pago.
+    let shippingCost = 0;
+    if (shipping.deliveryMethod === "LOCAL") {
+      const local = await isLocalDelivery(shipping.postalCode);
+      if (!local) {
+        return NextResponse.json(
+          { message: "Entrega local disponível apenas para CEPs de Itapipoca/CE" },
+          { status: 400 }
+        );
+      }
+      shippingCost = LOCAL_DELIVERY_FEE;
+    } else if (shipping.deliveryMethod === "SHIPPING") {
+      const quote = await quoteMelhorEnvioFreight(
+        shipping.postalCode,
+        cartItems.map((item) => ({
+          quantity: item.quantity,
+          weightKg: item.product.weightKg,
+          heightCm: item.product.heightCm,
+          widthCm: item.product.widthCm,
+          lengthCm: item.product.lengthCm,
+        }))
+      );
+      if (!quote) {
+        return NextResponse.json(
+          { message: "Não foi possível calcular o frete para este CEP" },
+          { status: 400 }
+        );
+      }
+      shippingCost = quote.price;
+    }
+
     const total = subtotal + shippingCost;
 
     // Cria a preferência no Mercado Pago ANTES de gravar o pedido / limpar o carrinho —
@@ -129,6 +174,8 @@ export async function POST(req: Request) {
         userId: session.user.id,
         total,
         shippingAddress: JSON.stringify(shipping),
+        deliveryMethod: shipping.deliveryMethod,
+        shippingCost,
         mpPreferenceId: preferenceResult.id,
         orderItems: {
           create: cartItems.map((item) => ({

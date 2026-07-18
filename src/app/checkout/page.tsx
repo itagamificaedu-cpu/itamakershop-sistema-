@@ -20,6 +20,13 @@ interface CartItem {
   };
 }
 
+interface ShippingOption {
+  method: string;
+  label: string;
+  price: number;
+  info?: string;
+}
+
 export default function CheckoutPage() {
   const router = useRouter();
   const [cartItems, setCartItems] = useState<CartItem[]>([]);
@@ -35,6 +42,11 @@ export default function CheckoutPage() {
     state: "",
     postalCode: "",
   });
+
+  const [shippingOptions, setShippingOptions] = useState<ShippingOption[]>([]);
+  const [selectedMethod, setSelectedMethod] = useState("");
+  const [quoteLoading, setQuoteLoading] = useState(false);
+  const [quoteError, setQuoteError] = useState("");
 
   const loadCart = useCallback(async () => {
     const res = await fetch("/api/cart");
@@ -60,16 +72,65 @@ export default function CheckoutPage() {
     setFormData((prev) => ({ ...prev, [name]: value }));
   };
 
+  const fetchQuote = useCallback(async (cep: string) => {
+    const digits = cep.replace(/\D/g, "");
+    if (digits.length !== 8) return;
+
+    setQuoteLoading(true);
+    setQuoteError("");
+    setShippingOptions([]);
+    setSelectedMethod("");
+
+    try {
+      const res = await fetch("/api/shipping/quote", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ cep: digits }),
+      });
+      const data = await res.json();
+
+      if (!res.ok) {
+        setQuoteError(data.message || "Não foi possível calcular o frete");
+        setQuoteLoading(false);
+        return;
+      }
+
+      setShippingOptions(data.options);
+      if (data.options.length > 0) {
+        setSelectedMethod(data.options[0].method);
+      }
+    } catch {
+      setQuoteError("Não foi possível calcular o frete. Tente novamente.");
+    } finally {
+      setQuoteLoading(false);
+    }
+  }, []);
+
+  const handlePostalCodeBlur = () => {
+    fetchQuote(formData.postalCode);
+  };
+
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setFormError("");
+
+    if (!selectedMethod) {
+      setFormError("Informe o CEP e escolha uma opção de entrega");
+      return;
+    }
+
+    if (selectedMethod !== "PICKUP" && !formData.address) {
+      setFormError("Preencha o endereço de entrega");
+      return;
+    }
+
     setIsSubmitting(true);
 
     try {
       const res = await fetch("/api/checkout", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(formData),
+        body: JSON.stringify({ ...formData, deliveryMethod: selectedMethod }),
       });
 
       const data = await res.json();
@@ -91,7 +152,7 @@ export default function CheckoutPage() {
     (total, item) => total + item.product.price * item.quantity,
     0
   );
-  const shipping = subtotal > 100 ? 0 : subtotal > 0 ? 10 : 0;
+  const shipping = shippingOptions.find((o) => o.method === selectedMethod)?.price ?? 0;
   const total = subtotal + shipping;
 
   if (isLoadingCart) {
@@ -128,7 +189,7 @@ export default function CheckoutPage() {
         <div>
           <form onSubmit={handleSubmit} className="space-y-8">
             <div className="space-y-4">
-              <h2 className="text-xl font-semibold">Dados de Entrega</h2>
+              <h2 className="text-xl font-semibold">Seus Dados</h2>
               <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                 <div>
                   <label htmlFor="firstName" className="block text-sm font-medium mb-1">
@@ -171,60 +232,123 @@ export default function CheckoutPage() {
                   className="w-full"
                 />
               </div>
+            </div>
+
+            <div className="space-y-4">
+              <h2 className="text-xl font-semibold">Entrega</h2>
               <div>
-                <label htmlFor="address" className="block text-sm font-medium mb-1">
-                  Endereço
+                <label htmlFor="postalCode" className="block text-sm font-medium mb-1">
+                  CEP
                 </label>
                 <Input
-                  id="address"
-                  name="address"
-                  value={formData.address}
+                  id="postalCode"
+                  name="postalCode"
+                  value={formData.postalCode}
                   onChange={handleChange}
+                  onBlur={handlePostalCodeBlur}
+                  placeholder="00000-000"
                   required
-                  className="w-full"
+                  className="w-full max-w-xs"
                 />
+                <p className="text-xs text-muted-foreground mt-1">
+                  Informe o CEP para ver as opções de entrega disponíveis
+                </p>
               </div>
-              <div className="grid grid-cols-1 gap-4 sm:grid-cols-3">
-                <div>
-                  <label htmlFor="city" className="block text-sm font-medium mb-1">
-                    Cidade
-                  </label>
-                  <Input
-                    id="city"
-                    name="city"
-                    value={formData.city}
-                    onChange={handleChange}
-                    required
-                    className="w-full"
-                  />
+
+              {quoteLoading && (
+                <p className="text-sm text-muted-foreground flex items-center gap-2">
+                  <span className="h-3 w-3 animate-spin rounded-full border-2 border-primary border-r-transparent" />
+                  Calculando opções de entrega...
+                </p>
+              )}
+
+              {quoteError && <p className="text-sm text-red-500">{quoteError}</p>}
+
+              {shippingOptions.length > 0 && (
+                <div className="space-y-2">
+                  {shippingOptions.map((option) => (
+                    <label
+                      key={option.method}
+                      className={`flex items-center justify-between border rounded-md p-3 cursor-pointer transition-colors ${
+                        selectedMethod === option.method
+                          ? "border-primary bg-primary/5"
+                          : "border-input"
+                      }`}
+                    >
+                      <div className="flex items-center gap-3">
+                        <input
+                          type="radio"
+                          name="deliveryMethod"
+                          value={option.method}
+                          checked={selectedMethod === option.method}
+                          onChange={() => setSelectedMethod(option.method)}
+                        />
+                        <div>
+                          <div className="text-sm font-medium">{option.label}</div>
+                          {option.info && (
+                            <div className="text-xs text-muted-foreground">{option.info}</div>
+                          )}
+                        </div>
+                      </div>
+                      <div className="text-sm font-medium">
+                        {option.price === 0 ? "Grátis" : formatPrice(option.price)}
+                      </div>
+                    </label>
+                  ))}
                 </div>
-                <div>
-                  <label htmlFor="state" className="block text-sm font-medium mb-1">
-                    Estado
-                  </label>
-                  <Input
-                    id="state"
-                    name="state"
-                    value={formData.state}
-                    onChange={handleChange}
-                    required
-                    className="w-full"
-                  />
+              )}
+
+              {selectedMethod && selectedMethod !== "PICKUP" && (
+                <div className="space-y-4 pt-2">
+                  <div>
+                    <label htmlFor="address" className="block text-sm font-medium mb-1">
+                      Endereço
+                    </label>
+                    <Input
+                      id="address"
+                      name="address"
+                      value={formData.address}
+                      onChange={handleChange}
+                      required
+                      className="w-full"
+                    />
+                  </div>
+                  <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
+                    <div>
+                      <label htmlFor="city" className="block text-sm font-medium mb-1">
+                        Cidade
+                      </label>
+                      <Input
+                        id="city"
+                        name="city"
+                        value={formData.city}
+                        onChange={handleChange}
+                        required
+                        className="w-full"
+                      />
+                    </div>
+                    <div>
+                      <label htmlFor="state" className="block text-sm font-medium mb-1">
+                        Estado
+                      </label>
+                      <Input
+                        id="state"
+                        name="state"
+                        value={formData.state}
+                        onChange={handleChange}
+                        required
+                        className="w-full"
+                      />
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  <label htmlFor="postalCode" className="block text-sm font-medium mb-1">
-                    CEP
-                  </label>
-                  <Input
-                    id="postalCode"
-                    name="postalCode"
-                    value={formData.postalCode}
-                    onChange={handleChange}
-                    required
-                    className="w-full"
-                  />
+              )}
+
+              {selectedMethod === "PICKUP" && (
+                <div className="text-sm text-muted-foreground bg-muted/50 rounded-md p-3">
+                  Retire seu pedido em: Rua Brisa do Norte, 1017 — Nova Aldeota, Itapipoca/CE
                 </div>
-              </div>
+              )}
             </div>
 
             {formError && (
@@ -238,7 +362,12 @@ export default function CheckoutPage() {
               concluir o pagamento.
             </div>
 
-            <Button type="submit" className="w-full" size="lg" disabled={isSubmitting}>
+            <Button
+              type="submit"
+              className="w-full"
+              size="lg"
+              disabled={isSubmitting || !selectedMethod}
+            >
               {isSubmitting ? (
                 <>
                   <div className="mr-2 h-4 w-4 animate-spin rounded-full border-2 border-background border-r-transparent" />
@@ -284,7 +413,13 @@ export default function CheckoutPage() {
               </div>
               <div className="flex justify-between">
                 <span className="text-muted-foreground">Frete</span>
-                <span>{shipping === 0 ? "Grátis" : formatPrice(shipping)}</span>
+                <span>
+                  {selectedMethod
+                    ? shipping === 0
+                      ? "Grátis"
+                      : formatPrice(shipping)
+                    : "Informe o CEP"}
+                </span>
               </div>
               <div className="border-t pt-3 flex justify-between font-medium">
                 <span>Total</span>

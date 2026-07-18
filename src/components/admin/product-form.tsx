@@ -23,6 +23,10 @@ interface ProductFormProps {
     categoryId: string
     featured: boolean
     inventory: number
+    weightKg?: number
+    heightCm?: number
+    widthCm?: number
+    lengthCm?: number
   }
 }
 
@@ -35,6 +39,10 @@ export default function ProductForm({ categories, productId, initialData }: Prod
   const [inventory, setInventory] = useState(initialData?.inventory?.toString() ?? "0")
   const [featured, setFeatured] = useState(initialData?.featured ?? false)
   const [images, setImages] = useState<string[]>(initialData?.images ?? [])
+  const [weightKg, setWeightKg] = useState(initialData?.weightKg?.toString() ?? "0.3")
+  const [heightCm, setHeightCm] = useState(initialData?.heightCm?.toString() ?? "3")
+  const [widthCm, setWidthCm] = useState(initialData?.widthCm?.toString() ?? "16")
+  const [lengthCm, setLengthCm] = useState(initialData?.lengthCm?.toString() ?? "20")
   const [uploading, setUploading] = useState(false)
   const [saving, setSaving] = useState(false)
   const [error, setError] = useState("")
@@ -90,6 +98,10 @@ export default function ProductForm({ categories, productId, initialData }: Prod
       inventory: parseInt(inventory, 10),
       featured,
       images,
+      weightKg: parseFloat(weightKg) || 0.3,
+      heightCm: parseFloat(heightCm) || 3,
+      widthCm: parseFloat(widthCm) || 16,
+      lengthCm: parseFloat(lengthCm) || 20,
     }
 
     try {
@@ -191,6 +203,54 @@ export default function ProductForm({ categories, productId, initialData }: Prod
         <label htmlFor="featured" className="text-sm font-medium">
           Produto em destaque (aparece na home)
         </label>
+      </div>
+
+      <div>
+        <label className="block text-sm font-medium mb-1">
+          Peso e dimensões da embalagem (para calcular frete)
+        </label>
+        <div className="grid grid-cols-4 gap-3">
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">Peso (kg)</label>
+            <Input
+              type="number"
+              step="0.01"
+              min="0.01"
+              value={weightKg}
+              onChange={(e) => setWeightKg(e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">Altura (cm)</label>
+            <Input
+              type="number"
+              step="0.5"
+              min="1"
+              value={heightCm}
+              onChange={(e) => setHeightCm(e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">Largura (cm)</label>
+            <Input
+              type="number"
+              step="0.5"
+              min="1"
+              value={widthCm}
+              onChange={(e) => setWidthCm(e.target.value)}
+            />
+          </div>
+          <div>
+            <label className="block text-xs text-muted-foreground mb-1">Comprimento (cm)</label>
+            <Input
+              type="number"
+              step="0.5"
+              min="1"
+              value={lengthCm}
+              onChange={(e) => setLengthCm(e.target.value)}
+            />
+          </div>
+        </div>
       </div>
 
       <div>

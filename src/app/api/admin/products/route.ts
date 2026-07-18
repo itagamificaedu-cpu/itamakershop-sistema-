@@ -11,6 +11,10 @@ const productSchema = z.object({
   categoryId: z.string().min(1),
   featured: z.boolean().optional().default(false),
   inventory: z.number().int().min(0),
+  weightKg: z.number().positive().optional().default(0.3),
+  heightCm: z.number().positive().optional().default(3),
+  widthCm: z.number().positive().optional().default(16),
+  lengthCm: z.number().positive().optional().default(20),
 });
 
 export async function GET() {

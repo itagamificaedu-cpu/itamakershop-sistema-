@@ -34,6 +34,10 @@ export default async function EditarProdutoPage({
           categoryId: product.categoryId,
           featured: product.featured,
           inventory: product.inventory,
+          weightKg: product.weightKg,
+          heightCm: product.heightCm,
+          widthCm: product.widthCm,
+          lengthCm: product.lengthCm,
         }}
       />
     </div>

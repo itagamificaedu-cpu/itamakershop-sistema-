@@ -101,6 +101,21 @@ export default function ProfilePage() {
           </p>
         </div>
 
+        {session?.user?.role === "ADMIN" && (
+          <Link
+            href="/admin"
+            className="flex items-center justify-between rounded-lg border border-primary/30 bg-primary/5 p-4 hover:bg-primary/10 transition-colors"
+          >
+            <div>
+              <p className="font-medium">Painel de Administração</p>
+              <p className="text-sm text-muted-foreground">
+                Gerencie produtos, categorias e pedidos da loja
+              </p>
+            </div>
+            <span className="text-primary text-sm font-medium">Acessar →</span>
+          </Link>
+        )}
+
         <div className="space-y-6">
           <div className="bg-muted/50 p-6 rounded-lg">
             {message.text && (

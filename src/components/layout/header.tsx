@@ -1,15 +1,18 @@
 "use client"
 
 import Link from "next/link"
-import { ShoppingCart, Menu, Search, User, X } from "lucide-react"
+import { ShoppingCart, Menu, Search, Shield, User, X } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
+import { useSession } from "next-auth/react"
 import ThemeToggle from "@/components/theme-toggle"
 import SearchBar from "@/components/search-bar"
 
 export default function Header() {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false)
   const [searchOpen, setSearchOpen] = useState(false)
+  const { data: session } = useSession()
+  const isAdmin = session?.user?.role === "ADMIN"
 
   return (
     <header className="sticky top-0 z-40 w-full border-b bg-background">
@@ -39,6 +42,15 @@ export default function Header() {
           >
             Todos os Produtos
           </Link>
+          {isAdmin && (
+            <Link
+              href="/admin"
+              className="flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:underline"
+            >
+              <Shield className="h-4 w-4" />
+              Admin
+            </Link>
+          )}
         </nav>
         <div className="flex items-center gap-2">
           <Button
@@ -76,6 +88,16 @@ export default function Header() {
             >
               Todos os Produtos
             </Link>
+            {isAdmin && (
+              <Link
+                href="/admin"
+                className="flex items-center gap-1 text-sm font-medium text-primary transition-colors hover:underline"
+                onClick={() => setMobileMenuOpen(false)}
+              >
+                <Shield className="h-4 w-4" />
+                Admin
+              </Link>
+            )}
           </div>
         </div>
       )}

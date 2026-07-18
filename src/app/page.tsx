@@ -53,7 +53,11 @@ export default async function Home() {
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
-                <a href="mailto:itagamificaedu@gmail.com">
+                <a
+                  href="https://wa.me/5588981681498?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20um%20or%C3%A7amento%20na%20ItaMakerShop."
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   <Button size="lg" variant="outline" className="w-full min-[400px]:w-auto">
                     Fazer um Orçamento
                   </Button>

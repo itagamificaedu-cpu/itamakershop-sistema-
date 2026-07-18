@@ -1,5 +1,5 @@
 import Link from "next/link"
-import { Printer, Zap } from "lucide-react"
+import { Printer, Zap, ArrowRight, Sparkles, ShieldCheck, Truck } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import FeaturedProducts from "@/components/home/featured-products"
 import CategoryGrid from "@/components/home/category-grid"
@@ -22,33 +22,62 @@ export default async function Home() {
   return (
     <div className="flex flex-col min-h-screen">
       {/* Hero Section */}
-      <section className="w-full py-12 md:py-24 lg:py-32 xl:py-48 bg-black text-white">
-        <div className="container px-4 md:px-6">
-          <div className="grid gap-6 lg:grid-cols-[1fr_400px] lg:gap-12 xl:grid-cols-[1fr_600px]">
-            <div className="flex flex-col justify-center space-y-4">
-              <div className="space-y-2">
-                <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-                  Impressão 3D e Corte a Laser sob Medida
+      <section className="relative w-full overflow-hidden bg-background py-20 md:py-28 lg:py-36">
+        <div className="absolute inset-0 bg-grid-pattern [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,#000_20%,transparent_100%)]" />
+        <div className="absolute -top-24 right-0 h-[420px] w-[420px] rounded-full bg-primary/20 blur-[110px]" />
+
+        <div className="container relative px-4 md:px-6">
+          <div className="grid gap-12 lg:grid-cols-[1fr_420px] lg:gap-16 items-center">
+            <div className="flex flex-col justify-center space-y-6 animate-fade-up">
+              <div className="inline-flex w-fit items-center gap-1.5 rounded-full border border-primary/30 bg-primary/10 px-3 py-1 text-xs font-medium text-primary">
+                <Sparkles className="h-3.5 w-3.5" />
+                Feito sob encomenda, no Brasil
+              </div>
+
+              <div className="space-y-4">
+                <h1 className="font-heading text-balance text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
+                  Impressão 3D e Corte a Laser{" "}
+                  <span className="text-primary">sob Medida</span>
                 </h1>
-                <p className="max-w-[600px] text-gray-300 md:text-xl">
-                  Produtos personalizados com qualidade profissional. Peça o seu na ItaMakerShop.
+                <p className="max-w-[560px] text-lg text-muted-foreground">
+                  Produtos personalizados com qualidade profissional. Peça o seu na ItaMakerShop
+                  e transforme sua ideia em peça real.
                 </p>
               </div>
-              <div className="flex flex-col gap-2 min-[400px]:flex-row">
+
+              <div className="flex flex-col gap-3 min-[400px]:flex-row">
                 <Link href="/products">
-                  <Button size="lg" className="bg-white text-black hover:bg-gray-200">
+                  <Button size="lg" className="w-full min-[400px]:w-auto gap-2 shadow-sm">
                     Ver Produtos
+                    <ArrowRight className="h-4 w-4" />
+                  </Button>
+                </Link>
+                <Link href="/contact">
+                  <Button size="lg" variant="outline" className="w-full min-[400px]:w-auto">
+                    Fazer um Orçamento
                   </Button>
                 </Link>
               </div>
+
+              <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-2 text-sm text-muted-foreground">
+                <span className="flex items-center gap-1.5">
+                  <ShieldCheck className="h-4 w-4 text-primary" />
+                  Qualidade garantida
+                </span>
+                <span className="flex items-center gap-1.5">
+                  <Truck className="h-4 w-4 text-primary" />
+                  Envio para todo o Brasil
+                </span>
+              </div>
             </div>
+
             <div className="flex items-center justify-center">
-              <div className="relative h-[300px] w-[300px] md:h-[400px] md:w-[400px] lg:h-[450px] lg:w-[450px]">
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-violet-600 rounded-full blur-3xl opacity-30" />
-                <div className="relative bg-gray-900 rounded-full overflow-hidden h-full w-full border-2 border-gray-800">
-                  <div className="h-full flex items-center justify-center gap-6">
-                    <Printer className="h-20 w-20 md:h-28 md:w-28 text-white/90" strokeWidth={1.5} />
-                    <Zap className="h-16 w-16 md:h-24 md:w-24 text-white/90" strokeWidth={1.5} />
+              <div className="relative h-[280px] w-[280px] md:h-[360px] md:w-[360px]">
+                <div className="absolute inset-0 rounded-full bg-gradient-to-br from-primary to-orange-700 opacity-25 blur-3xl" />
+                <div className="relative flex h-full w-full items-center justify-center rounded-full border border-border bg-card shadow-xl">
+                  <div className="flex items-center gap-6">
+                    <Printer className="h-16 w-16 text-primary md:h-24 md:w-24" strokeWidth={1.5} />
+                    <Zap className="h-14 w-14 text-foreground/70 md:h-20 md:w-20" strokeWidth={1.5} />
                   </div>
                 </div>
               </div>
@@ -58,44 +87,41 @@ export default async function Home() {
       </section>
 
       {/* Featured Categories */}
-      <section className="w-full py-12 md:py-24 bg-background">
+      <section className="w-full py-16 md:py-24 bg-background">
         <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
-                Categorias
-              </h2>
-              <p className="max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Explore nossos produtos por categoria
-              </p>
-            </div>
+          <div className="flex flex-col items-center justify-center space-y-3 text-center">
+            <h2 className="font-heading text-3xl font-bold tracking-tight md:text-4xl">
+              Categorias
+            </h2>
+            <p className="max-w-[600px] text-muted-foreground md:text-lg">
+              Explore nossos produtos por categoria
+            </p>
           </div>
-          <div className="mt-8">
+          <div className="mt-10">
             <CategoryGrid categories={categories} />
           </div>
         </div>
       </section>
 
       {/* Featured Products */}
-      <section className="w-full py-12 md:py-24 bg-background">
+      <section className="w-full py-16 md:py-24 bg-secondary/40">
         <div className="container px-4 md:px-6">
-          <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
-                Produtos em Destaque
-              </h2>
-              <p className="max-w-[700px] text-gray-500 md:text-xl/relaxed lg:text-base/relaxed xl:text-xl/relaxed">
-                Confira os produtos mais procurados
-              </p>
-            </div>
+          <div className="flex flex-col items-center justify-center space-y-3 text-center">
+            <h2 className="font-heading text-3xl font-bold tracking-tight md:text-4xl">
+              Produtos em Destaque
+            </h2>
+            <p className="max-w-[600px] text-muted-foreground md:text-lg">
+              Confira os produtos mais procurados
+            </p>
           </div>
-          <div className="mt-8">
+          <div className="mt-10">
             <FeaturedProducts products={featuredProducts} />
           </div>
-          <div className="flex justify-center mt-8">
+          <div className="flex justify-center mt-10">
             <Link href="/products">
-              <Button variant="outline" size="lg">
+              <Button variant="outline" size="lg" className="gap-2">
                 Ver Todos os Produtos
+                <ArrowRight className="h-4 w-4" />
               </Button>
             </Link>
           </div>
@@ -103,18 +129,17 @@ export default async function Home() {
       </section>
 
       {/* Call to Action */}
-      <section className="w-full py-12 md:py-24 bg-primary text-primary-foreground">
-        <div className="container px-4 md:px-6">
+      <section className="relative w-full overflow-hidden py-16 md:py-24 bg-primary text-primary-foreground">
+        <div className="absolute inset-0 bg-grid-pattern opacity-10" />
+        <div className="container relative px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
-            <div className="space-y-2">
-              <h2 className="text-3xl font-bold tracking-tighter md:text-4xl">
-                Fique por Dentro
-              </h2>
-              <p className="max-w-[700px] md:text-xl/relaxed">
-                Assine nossa newsletter e receba novidades da ItaMakerShop
-              </p>
-            </div>
-            <div className="w-full max-w-sm">
+            <h2 className="font-heading text-3xl font-bold tracking-tight md:text-4xl">
+              Fique por Dentro
+            </h2>
+            <p className="max-w-[600px] md:text-lg opacity-90">
+              Assine nossa newsletter e receba novidades da ItaMakerShop
+            </p>
+            <div className="w-full max-w-sm pt-2">
               <NewsletterSignup />
             </div>
           </div>

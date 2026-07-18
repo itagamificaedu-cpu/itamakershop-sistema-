@@ -1,4 +1,4 @@
-import Image from "next/image";
+import SafeImage from "@/components/ui/safe-image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
@@ -68,8 +68,8 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
 
       <div className="grid grid-cols-1 gap-8 md:grid-cols-2">
         <div className="relative aspect-square overflow-hidden rounded-lg">
-          <Image
-            src={product.images[0] || "/placeholder-product.jpg"}
+          <SafeImage
+            src={product.images[0]}
             alt={product.name}
             fill
             className="object-cover"

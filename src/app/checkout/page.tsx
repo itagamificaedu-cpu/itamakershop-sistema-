@@ -3,7 +3,7 @@
 import { useState, useEffect, useCallback } from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
-import Image from "next/image";
+import SafeImage from "@/components/ui/safe-image";
 import { Button } from "@/components/ui/button";
 import { formatPrice } from "@/lib/utils";
 import { Input } from "@/components/ui/input";
@@ -259,8 +259,8 @@ export default function CheckoutPage() {
               {cartItems.map((item) => (
                 <div key={item.id} className="flex space-x-4">
                   <div className="relative h-16 w-16 overflow-hidden rounded-md flex-shrink-0">
-                    <Image
-                      src={item.product.images[0] || "/placeholder-product.jpg"}
+                    <SafeImage
+                      src={item.product.images[0]}
                       alt={item.product.name}
                       fill
                       className="object-cover"

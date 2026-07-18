@@ -1,5 +1,5 @@
 import Link from "next/link"
-import Image from "next/image"
+import { Printer, Zap } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import FeaturedProducts from "@/components/home/featured-products"
 import CategoryGrid from "@/components/home/category-grid"
@@ -46,15 +46,9 @@ export default async function Home() {
               <div className="relative h-[300px] w-[300px] md:h-[400px] md:w-[400px] lg:h-[450px] lg:w-[450px]">
                 <div className="absolute inset-0 bg-gradient-to-r from-blue-600 to-violet-600 rounded-full blur-3xl opacity-30" />
                 <div className="relative bg-gray-900 rounded-full overflow-hidden h-full w-full border-2 border-gray-800">
-                  <div className="p-8 h-full flex items-center justify-center">
-                    <Image 
-                      src="/placeholder-hero.jpg" 
-                      alt="Featured product" 
-                      width={400} 
-                      height={400} 
-                      priority
-                      className="rounded-xl"
-                    />
+                  <div className="h-full flex items-center justify-center gap-6">
+                    <Printer className="h-20 w-20 md:h-28 md:w-28 text-white/90" strokeWidth={1.5} />
+                    <Zap className="h-16 w-16 md:h-24 md:w-24 text-white/90" strokeWidth={1.5} />
                   </div>
                 </div>
               </div>

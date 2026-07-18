@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useCallback } from "react";
 import Link from "next/link";
-import Image from "next/image";
+import SafeImage from "@/components/ui/safe-image";
 import { useRouter } from "next/navigation";
 import { MinusCircle, PlusCircle, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -99,8 +99,8 @@ export default function CartPage() {
                 >
                   <div className="flex items-center space-x-4">
                     <div className="relative h-20 w-20 overflow-hidden rounded-md">
-                      <Image
-                        src={item.product.images[0] || "/placeholder-product.jpg"}
+                      <SafeImage
+                        src={item.product.images[0]}
                         alt={item.product.name}
                         fill
                         className="object-cover"

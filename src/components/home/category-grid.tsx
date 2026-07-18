@@ -1,5 +1,5 @@
 import Link from "next/link"
-import Image from "next/image"
+import SafeImage from "@/components/ui/safe-image"
 
 interface CategoryGridProps {
   categories: {
@@ -28,8 +28,8 @@ export default function CategoryGrid({ categories }: CategoryGridProps) {
           className="group relative overflow-hidden rounded-lg shadow-md transition-all hover:shadow-lg"
         >
           <div className="aspect-square w-full">
-            <Image
-              src={category.image || "/placeholder-category.jpg"}
+            <SafeImage
+              src={category.image}
               alt={category.name}
               fill
               className="object-cover transition-transform duration-300 group-hover:scale-105"

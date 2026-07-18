@@ -1,5 +1,5 @@
 import Link from "next/link"
-import Image from "next/image"
+import SafeImage from "@/components/ui/safe-image"
 import { formatPrice } from "@/lib/utils"
 import AddToCartButton from "@/components/products/add-to-cart-button"
 import {
@@ -34,8 +34,8 @@ export default function FeaturedProducts({ products }: { products: FeaturedProdu
         <Card key={product.id} className="overflow-hidden group">
           <Link href={`/products/${product.id}`}>
             <div className="relative aspect-square">
-              <Image
-                src={product.images[0] || "/placeholder-product.jpg"}
+              <SafeImage
+                src={product.images[0]}
                 alt={product.name}
                 fill
                 className="object-cover transition-transform group-hover:scale-105"

@@ -1,5 +1,5 @@
 import Link from "next/link";
-import Image from "next/image";
+import SafeImage from "@/components/ui/safe-image";
 import { formatPrice } from "@/lib/utils";
 import { prisma } from "@/lib/prisma";
 import AddToCartButton from "@/components/products/add-to-cart-button";
@@ -41,8 +41,8 @@ export default async function ProductsPage({
             <div key={product.id} className="group border rounded-lg overflow-hidden">
               <Link href={`/products/${product.id}`} className="block relative">
                 <div className="aspect-square relative overflow-hidden">
-                  <Image
-                    src={product.images[0] || "/placeholder-product.jpg"}
+                  <SafeImage
+                    src={product.images[0]}
                     alt={product.name}
                     fill
                     className="object-cover transition-transform group-hover:scale-105"

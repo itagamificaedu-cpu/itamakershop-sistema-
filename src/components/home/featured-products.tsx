@@ -31,32 +31,37 @@ export default function FeaturedProducts({ products }: { products: FeaturedProdu
   return (
     <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
       {products.map((product) => (
-        <Card key={product.id} className="overflow-hidden group">
+        <Card
+          key={product.id}
+          className="group overflow-hidden border-border/70 transition-shadow hover:shadow-lg"
+        >
           <Link href={`/products/${product.id}`}>
-            <div className="relative aspect-square">
+            <div className="relative aspect-square overflow-hidden bg-secondary">
               <SafeImage
                 src={product.images[0]}
                 alt={product.name}
                 fill
-                className="object-cover transition-transform group-hover:scale-105"
+                className="object-cover transition-transform duration-300 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-black/10 opacity-0 group-hover:opacity-100 transition-opacity" />
+              <div className="absolute inset-0 bg-black/0 transition-colors group-hover:bg-black/10" />
             </div>
           </Link>
-          <CardHeader className="p-4">
-            <div className="text-sm text-muted-foreground">
+          <CardHeader className="p-4 pb-0">
+            <div className="text-xs font-medium uppercase tracking-wide text-primary">
               {product.category.name}
             </div>
-            <CardTitle className="text-lg">
-              <Link href={`/products/${product.id}`}>{product.name}</Link>
+            <CardTitle className="text-base font-semibold">
+              <Link href={`/products/${product.id}`} className="hover:text-primary transition-colors">
+                {product.name}
+              </Link>
             </CardTitle>
           </CardHeader>
-          <CardContent className="p-4 pt-0">
-            <div className="font-medium text-lg">
+          <CardContent className="p-4 pt-2">
+            <div className="font-heading text-lg font-bold">
               {formatPrice(product.price)}
             </div>
           </CardContent>
-          <CardFooter className="p-4">
+          <CardFooter className="p-4 pt-0">
             <AddToCartButton
               productId={product.id}
               disabled={product.inventory <= 0}

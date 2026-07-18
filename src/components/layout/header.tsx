@@ -1,7 +1,7 @@
 "use client"
 
 import Link from "next/link"
-import { ShoppingCart, Menu, Search, Shield, User, X } from "lucide-react"
+import { ShoppingCart, Menu, Search, Shield, User, X, Printer } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { useState } from "react"
 import { useSession } from "next-auth/react"
@@ -15,7 +15,7 @@ export default function Header() {
   const isAdmin = session?.user?.role === "ADMIN"
 
   return (
-    <header className="sticky top-0 z-40 w-full border-b bg-background">
+    <header className="sticky top-0 z-40 w-full border-b border-border/60 bg-background/80 backdrop-blur-md supports-[backdrop-filter]:bg-background/60">
       <div className="container flex h-16 items-center justify-between px-4 md:px-6">
         <div className="flex items-center gap-2">
           <Button
@@ -31,14 +31,19 @@ export default function Header() {
             )}
             <span className="sr-only">Abrir Menu</span>
           </Button>
-          <Link href="/" className="text-xl font-bold">
-            ItaMakerShop
+          <Link href="/" className="flex items-center gap-2.5 group">
+            <span className="flex h-9 w-9 items-center justify-center rounded-lg bg-primary text-primary-foreground shadow-sm transition-transform group-hover:scale-105">
+              <Printer className="h-5 w-5" strokeWidth={2} />
+            </span>
+            <span className="font-heading text-lg font-bold tracking-tight">
+              Ita<span className="text-primary">MakerShop</span>
+            </span>
           </Link>
         </div>
         <nav className="hidden md:flex items-center gap-6">
           <Link
             href="/products"
-            className="text-sm font-medium transition-colors hover:text-primary"
+            className="text-sm font-medium text-foreground/80 transition-colors hover:text-primary"
           >
             Todos os Produtos
           </Link>
@@ -52,7 +57,7 @@ export default function Header() {
             </Link>
           )}
         </nav>
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-1">
           <Button
             variant="ghost"
             size="icon"
@@ -79,7 +84,7 @@ export default function Header() {
 
       {/* Mobile Menu */}
       {mobileMenuOpen && (
-        <div className="md:hidden border-t">
+        <div className="md:hidden border-t border-border/60 bg-background/95 backdrop-blur-md">
           <div className="container p-4 space-y-3">
             <Link
               href="/products"
@@ -104,7 +109,7 @@ export default function Header() {
 
       {/* Search Bar */}
       {searchOpen && (
-        <div className="border-t">
+        <div className="border-t border-border/60 bg-background/95 backdrop-blur-md">
           <div className="container p-4">
             <SearchBar onClose={() => setSearchOpen(false)} />
           </div>

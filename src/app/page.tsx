@@ -52,11 +52,11 @@ export default async function Home() {
                     <ArrowRight className="h-4 w-4" />
                   </Button>
                 </Link>
-                <Link href="/contact">
+                <a href="mailto:itagamificaedu@gmail.com">
                   <Button size="lg" variant="outline" className="w-full min-[400px]:w-auto">
                     Fazer um Orçamento
                   </Button>
-                </Link>
+                </a>
               </div>
 
               <div className="flex flex-wrap items-center gap-x-6 gap-y-2 pt-2 text-sm text-muted-foreground">

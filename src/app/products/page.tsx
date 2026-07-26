@@ -4,6 +4,7 @@ import SafeImage from "@/components/ui/safe-image";
 import { formatPrice } from "@/lib/utils";
 import { prisma } from "@/lib/prisma";
 import AddToCartButton from "@/components/products/add-to-cart-button";
+import CategorySidebar from "@/components/products/category-sidebar";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const metadata = {
@@ -20,16 +21,24 @@ export default async function ProductsPage({
 }) {
   const { category, q } = await searchParams;
 
-  const products = await prisma.product.findMany({
-    where: {
-      ...(category ? { categoryId: category } : {}),
-      ...(q ? { name: { contains: q, mode: "insensitive" } } : {}),
-    },
-    include: {
-      category: true,
-    },
-    orderBy: { createdAt: "desc" },
-  });
+  const [products, categories] = await Promise.all([
+    prisma.product.findMany({
+      where: {
+        ...(category ? { categoryId: category } : {}),
+        ...(q ? { name: { contains: q, mode: "insensitive" } } : {}),
+      },
+      include: {
+        category: true,
+      },
+      orderBy: { createdAt: "desc" },
+    }),
+    prisma.category.findMany({
+      orderBy: { name: "asc" },
+      include: {
+        _count: { select: { products: true } },
+      },
+    }),
+  ]);
 
   return (
     <>
@@ -43,14 +52,16 @@ export default async function ProductsPage({
           </p>
         </div>
       </div>
-      <div className="container py-10 md:py-14">
+      <div className="container flex flex-col gap-8 py-10 md:flex-row md:py-14">
+      <CategorySidebar categories={categories} activeCategory={category} q={q} />
+      <div className="flex-1">
       {products.length === 0 ? (
         <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-border py-24 text-center">
           <PackageSearch className="h-10 w-10 text-muted-foreground/60" strokeWidth={1.5} />
           <p className="text-muted-foreground">Nenhum produto encontrado.</p>
         </div>
       ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           {products.map((product) => (
             <Card key={product.id} className="group overflow-hidden border-border/70 transition-shadow hover:shadow-lg">
               <Link href={`/products/${product.id}`} className="block">
@@ -91,6 +102,7 @@ export default async function ProductsPage({
           ))}
         </div>
       )}
+      </div>
       </div>
     </>
   );

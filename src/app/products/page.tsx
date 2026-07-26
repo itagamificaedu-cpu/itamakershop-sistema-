@@ -1,10 +1,10 @@
 import Link from "next/link";
 import { PackageSearch } from "lucide-react";
 import SafeImage from "@/components/ui/safe-image";
-import { formatPrice } from "@/lib/utils";
 import { prisma } from "@/lib/prisma";
 import AddToCartButton from "@/components/products/add-to-cart-button";
 import CategorySidebar from "@/components/products/category-sidebar";
+import PriceDisplay from "@/components/products/price-display";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const metadata = {
@@ -87,9 +87,7 @@ export default async function ProductsPage({
                 </CardTitle>
               </CardHeader>
               <CardContent className="p-4 pt-2">
-                <div className="font-heading text-lg font-bold">
-                  {formatPrice(product.price)}
-                </div>
+                <PriceDisplay price={product.price} />
               </CardContent>
               <CardFooter className="p-4 pt-0">
                 <AddToCartButton

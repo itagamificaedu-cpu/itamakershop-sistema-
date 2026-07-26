@@ -3,9 +3,9 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Button } from "@/components/ui/button";
 import { prisma } from "@/lib/prisma";
-import { formatPrice } from "@/lib/utils";
 import { Heart, Star } from "lucide-react";
 import AddToCartButton from "@/components/products/add-to-cart-button";
+import PriceDisplay from "@/components/products/price-display";
 
 export const dynamic = "force-dynamic";
 
@@ -106,7 +106,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
             </span>
           </div>
 
-          <p className="text-xl font-bold">{formatPrice(product.price)}</p>
+          <PriceDisplay price={product.price} size="lg" />
 
           <div>
             <h2 className="text-lg font-semibold">Descrição</h2>

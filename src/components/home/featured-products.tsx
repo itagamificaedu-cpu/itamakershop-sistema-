@@ -1,7 +1,7 @@
 import Link from "next/link"
 import SafeImage from "@/components/ui/safe-image"
-import { formatPrice } from "@/lib/utils"
 import AddToCartButton from "@/components/products/add-to-cart-button"
+import PriceDisplay from "@/components/products/price-display"
 import {
   Card,
   CardContent,
@@ -59,9 +59,7 @@ export default function FeaturedProducts({ products }: { products: FeaturedProdu
             </CardTitle>
           </CardHeader>
           <CardContent className="p-4 pt-2">
-            <div className="font-heading text-lg font-bold">
-              {formatPrice(product.price)}
-            </div>
+            <PriceDisplay price={product.price} />
           </CardContent>
           <CardFooter className="p-4 pt-0">
             <AddToCartButton

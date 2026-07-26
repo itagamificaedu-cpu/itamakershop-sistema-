@@ -3,6 +3,7 @@ import { Inter, Space_Grotesk } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
+import PromoBar from "@/components/layout/promo-bar";
 import Providers from "@/components/providers";
 
 const inter = Inter({
@@ -30,6 +31,7 @@ export default function RootLayout({
       <body className={`${inter.variable} ${spaceGrotesk.variable} font-sans antialiased`}>
         <Providers>
           <div className="relative min-h-screen flex flex-col">
+            <PromoBar />
             <Header />
             <main className="flex-grow">{children}</main>
             <Footer />

@@ -1,9 +1,19 @@
 import Link from "next/link"
 import { Printer } from "lucide-react"
+import NewsletterSignup from "@/components/home/newsletter-signup"
 
 export default function Footer() {
   return (
     <footer className="w-full border-t border-border/70 bg-background">
+      <div className="w-full bg-primary text-primary-foreground">
+        <div className="container flex flex-col items-center gap-3 px-4 py-10 text-center md:px-6">
+          <h3 className="font-heading text-xl font-bold">Newsletter</h3>
+          <p className="text-sm opacity-90">
+            Quer receber nossas ofertas? Cadastre-se e comece a recebê-las!
+          </p>
+          <NewsletterSignup />
+        </div>
+      </div>
       <div className="container px-4 py-14 md:px-6">
         <div className="grid grid-cols-1 gap-10 sm:grid-cols-2 md:grid-cols-4">
           <div className="space-y-3 sm:col-span-2 md:col-span-1">

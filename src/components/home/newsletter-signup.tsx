@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input"
 export default function NewsletterSignup() {
   const [email, setEmail] = useState("")
   const [success, setSuccess] = useState(false)
+  const [error, setError] = useState(false)
   const [loading, setLoading] = useState(false)
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -14,17 +15,25 @@ export default function NewsletterSignup() {
     if (!email.trim()) return
 
     setLoading(true)
-    // Simulate API call
-    setTimeout(() => {
+    setError(false)
+
+    try {
+      const res = await fetch("/api/newsletter", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ email }),
+      })
+
+      if (!res.ok) throw new Error()
+
       setSuccess(true)
       setEmail("")
+      setTimeout(() => setSuccess(false), 3000)
+    } catch {
+      setError(true)
+    } finally {
       setLoading(false)
-      
-      // Reset success message after 3 seconds
-      setTimeout(() => {
-        setSuccess(false)
-      }, 3000)
-    }, 1000)
+    }
   }
 
   return (
@@ -45,7 +54,12 @@ export default function NewsletterSignup() {
 
       {success && (
         <div className="mt-2 text-center text-sm">
-          Obrigado por se inscrever! Confira seu email para o cupom de desconto.
+          Inscrito com sucesso! Você vai receber nossas novidades por e-mail.
+        </div>
+      )}
+      {error && (
+        <div className="mt-2 text-center text-sm">
+          Não deu pra inscrever agora, tenta de novo em instantes.
         </div>
       )}
     </div>

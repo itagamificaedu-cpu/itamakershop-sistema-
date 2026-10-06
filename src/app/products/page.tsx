@@ -5,6 +5,7 @@ import { prisma } from "@/lib/prisma";
 import AddToCartButton from "@/components/products/add-to-cart-button";
 import CategorySidebar from "@/components/products/category-sidebar";
 import PriceDisplay from "@/components/products/price-display";
+import QuoteButton from "@/components/products/quote-button";
 import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
 
 export const metadata = {
@@ -90,11 +91,15 @@ export default async function ProductsPage({
                 <PriceDisplay price={product.price} />
               </CardContent>
               <CardFooter className="p-4 pt-0">
-                <AddToCartButton
-                  productId={product.id}
-                  disabled={product.inventory <= 0}
-                  className="w-full"
-                />
+                {product.price > 0 ? (
+                  <AddToCartButton
+                    productId={product.id}
+                    disabled={product.inventory <= 0}
+                    className="w-full"
+                  />
+                ) : (
+                  <QuoteButton productName={product.name} className="w-full" />
+                )}
               </CardFooter>
             </Card>
           ))}

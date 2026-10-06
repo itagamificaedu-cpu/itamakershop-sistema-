@@ -2,6 +2,7 @@ import Link from "next/link"
 import SafeImage from "@/components/ui/safe-image"
 import AddToCartButton from "@/components/products/add-to-cart-button"
 import PriceDisplay from "@/components/products/price-display"
+import QuoteButton from "@/components/products/quote-button"
 import {
   Card,
   CardContent,
@@ -62,11 +63,15 @@ export default function FeaturedProducts({ products }: { products: FeaturedProdu
             <PriceDisplay price={product.price} />
           </CardContent>
           <CardFooter className="p-4 pt-0">
-            <AddToCartButton
-              productId={product.id}
-              disabled={product.inventory <= 0}
-              className="w-full"
-            />
+            {product.price > 0 ? (
+              <AddToCartButton
+                productId={product.id}
+                disabled={product.inventory <= 0}
+                className="w-full"
+              />
+            ) : (
+              <QuoteButton productName={product.name} className="w-full" />
+            )}
           </CardFooter>
         </Card>
       ))}

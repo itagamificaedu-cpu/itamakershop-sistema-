@@ -6,6 +6,7 @@ import { prisma } from "@/lib/prisma";
 import { Heart, Star } from "lucide-react";
 import AddToCartButton from "@/components/products/add-to-cart-button";
 import PriceDisplay from "@/components/products/price-display";
+import QuoteButton from "@/components/products/quote-button";
 
 export const dynamic = "force-dynamic";
 
@@ -114,12 +115,16 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
           </div>
 
           <div className="flex flex-col space-y-3 sm:flex-row sm:space-x-3 sm:space-y-0">
-            <AddToCartButton
-              productId={product.id}
-              disabled={product.inventory <= 0}
-              size="lg"
-              className="flex-1"
-            />
+            {product.price > 0 ? (
+              <AddToCartButton
+                productId={product.id}
+                disabled={product.inventory <= 0}
+                size="lg"
+                className="flex-1"
+              />
+            ) : (
+              <QuoteButton productName={product.name} size="lg" className="flex-1" />
+            )}
             <Button variant="outline" size="lg" className="flex-1" disabled>
               <Heart className="mr-2 h-5 w-5" />
               Favoritos (em breve)
@@ -131,7 +136,11 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
               <div className="h-2 w-2 rounded-full bg-green-500"></div>
               <p className="text-sm">
                 <span className="font-medium">
-                  {product.inventory > 0 ? "Em Estoque" : "Fora de Estoque"}
+                  {product.price <= 0
+                    ? "Sob encomenda"
+                    : product.inventory > 0
+                      ? "Em Estoque"
+                      : "Fora de Estoque"}
                 </span>
               </p>
             </div>

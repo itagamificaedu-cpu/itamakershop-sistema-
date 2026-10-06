@@ -2,6 +2,14 @@ import { formatPrice } from "@/lib/utils"
 import { getInstallmentPlan, getPixPrice, PIX_DISCOUNT_LABEL } from "@/lib/pricing"
 
 export default function PriceDisplay({ price, size = "sm" }: { price: number; size?: "sm" | "lg" }) {
+  if (price <= 0) {
+    return (
+      <div className={size === "lg" ? "font-heading text-2xl font-bold" : "font-heading text-lg font-bold"}>
+        Sob consulta
+      </div>
+    )
+  }
+
   const { installments, installmentValue } = getInstallmentPlan(price)
   const pixPrice = getPixPrice(price)
 

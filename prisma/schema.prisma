@@ -99,11 +99,28 @@ model Order {
   shippingAddress String
   deliveryMethod String   @default("SHIPPING")
   shippingCost  Float     @default(0)
+  telefoneCliente String?
+  codigoRastreio  String?
+  aceitaWhatsapp  Boolean   @default(false)
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
 
   user          User      @relation(fields: [userId], references: [id])
   orderItems    OrderItem[]
+}
+
+// Mensagens recebidas/enviadas pelo WhatsApp e Instagram (via webhook da Meta)
+model MensagemSocial {
+  id        String   @id @default(cuid())
+  canal     String
+  direcao   String
+  contato   String
+  texto     String?
+  idExterno String?  @unique
+  bruto     Json?
+  createdAt DateTime @default(now())
+
+  @@index([canal, contato])
 }
 
 // OrderItem model

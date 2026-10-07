@@ -1,4 +1,6 @@
 import { prisma } from "@/lib/prisma";
+import CaixaResposta from "@/components/admin/caixa-resposta";
+import { envioConfigurado, JANELA_RESPOSTA_HORAS } from "@/lib/meta-envio";
 
 export const dynamic = "force-dynamic";
 
@@ -42,10 +44,13 @@ export default async function AdminMensagensPage() {
 
   return (
     <div className="space-y-4">
-      <h2 className="text-xl font-semibold">Mensagens ({conversas.size} conversas)</h2>
+      <h2 className="text-xl font-semibold">
+        Mensagens ({conversas.size} {conversas.size === 1 ? "conversa" : "conversas"})
+      </h2>
       <p className="text-sm text-muted-foreground">
-        Mensagens que chegam pelo Instagram e pelo WhatsApp da loja. Por enquanto só dá para
-        ler. Para responder, use o Instagram ou o WhatsApp normalmente.
+        Mensagens que chegam pelo Instagram e pelo WhatsApp da loja. As conversas do Instagram
+        podem ser respondidas aqui, em até {JANELA_RESPOSTA_HORAS} horas depois da última
+        mensagem do cliente. Para o WhatsApp, use o aplicativo normalmente.
       </p>
 
       {conversas.size === 0 ? (
@@ -55,6 +60,21 @@ export default async function AdminMensagensPage() {
           {Array.from(conversas.entries()).map(([chave, grupo]) => {
             const ultima = grupo[0];
             const cronologica = [...grupo].reverse();
+
+            // A última mensagem do cliente decide se ainda dá para responder (janela da Meta).
+            const ultimaDoCliente = grupo.find((m) => m.direcao === "entrada");
+            const dentroDaJanela =
+              ultimaDoCliente !== undefined &&
+              Date.now() - ultimaDoCliente.createdAt.getTime() < JANELA_RESPOSTA_HORAS * 60 * 60 * 1000;
+            let aviso: string | undefined;
+            if (ultima.canal !== "instagram") {
+              aviso = "Resposta por aqui só está disponível para o Instagram.";
+            } else if (!envioConfigurado()) {
+              aviso = "O envio de respostas ainda não foi configurado no servidor.";
+            } else if (!dentroDaJanela) {
+              aviso = `Já passaram mais de ${JANELA_RESPOSTA_HORAS} horas desde a última mensagem do cliente, então a Meta não permite responder.`;
+            }
+
             return (
               <details key={chave} className="rounded-lg border p-4" open={conversas.size <= 3}>
                 <summary className="flex cursor-pointer flex-wrap items-center justify-between gap-2">
@@ -96,6 +116,8 @@ export default async function AdminMensagensPage() {
                     </div>
                   ))}
                 </div>
+
+                <CaixaResposta contato={ultima.contato} podeResponder={aviso === undefined} aviso={aviso} />
               </details>
             );
           })}

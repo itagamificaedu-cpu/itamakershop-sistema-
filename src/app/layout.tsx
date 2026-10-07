@@ -4,6 +4,8 @@ import "./globals.css";
 import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import PromoBar from "@/components/layout/promo-bar";
+import BotaoWhatsappFlutuante from "@/components/layout/botao-whatsapp-flutuante";
+import { SITE_URL } from "@/lib/contato";
 import Providers from "@/components/providers";
 
 const inter = Inter({
@@ -17,8 +19,16 @@ const spaceGrotesk = Space_Grotesk({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(SITE_URL),
   title: "ItaMakerShop | Impressão 3D e Corte a Laser",
   description: "Loja online de produtos de impressão 3D e corte a laser sob medida.",
+  openGraph: {
+    type: "website",
+    siteName: "ItaMakerShop",
+    title: "ItaMakerShop | Impressão 3D e Corte a Laser",
+    description: "Loja online de produtos de impressão 3D e corte a laser sob medida.",
+    images: [{ url: "/og-logo.jpg", width: 630, height: 630, alt: "ItaMakerShop" }],
+  },
 };
 
 export default function RootLayout({
@@ -35,6 +45,7 @@ export default function RootLayout({
             <Header />
             <main className="flex-grow">{children}</main>
             <Footer />
+            <BotaoWhatsappFlutuante />
           </div>
         </Providers>
       </body>

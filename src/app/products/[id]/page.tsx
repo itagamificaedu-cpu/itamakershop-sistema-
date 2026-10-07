@@ -7,6 +7,8 @@ import { Heart, Star } from "lucide-react";
 import AddToCartButton from "@/components/products/add-to-cart-button";
 import PriceDisplay from "@/components/products/price-display";
 import QuoteButton from "@/components/products/quote-button";
+import BotaoPedirWhatsapp from "@/components/products/botao-pedir-whatsapp";
+import { formatPrice } from "@/lib/utils";
 
 export const dynamic = "force-dynamic";
 
@@ -23,9 +25,22 @@ export async function generateMetadata({ params }: { params: Promise<{ id: strin
     };
   }
 
+  const preco = product.price > 0 ? formatPrice(product.price) : "Sob consulta";
+  const resumo = product.description.length > 140 ? `${product.description.slice(0, 137)}...` : product.description;
+  const descricao = `${preco}. ${resumo}`;
+  const imagem = product.images[0] ?? "/og-logo.jpg";
+
   return {
     title: `${product.name} - ItaMakerShop`,
-    description: product.description,
+    description: descricao,
+    openGraph: {
+      type: "website",
+      siteName: "ItaMakerShop",
+      title: product.name,
+      description: descricao,
+      url: `/products/${product.id}`,
+      images: [{ url: imagem, alt: product.name }],
+    },
   };
 }
 
@@ -130,6 +145,10 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
               Favoritos (em breve)
             </Button>
           </div>
+
+          {product.price > 0 && (
+            <BotaoPedirWhatsapp id={product.id} nome={product.name} preco={product.price} />
+          )}
 
           <div className="rounded-lg border p-4">
             <div className="flex items-center gap-2">

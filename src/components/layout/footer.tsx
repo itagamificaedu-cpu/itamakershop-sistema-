@@ -1,6 +1,7 @@
 import Link from "next/link"
 import { Printer } from "lucide-react"
 import NewsletterSignup from "@/components/home/newsletter-signup"
+import { INSTAGRAM_URL, INSTAGRAM_USUARIO, WHATSAPP_EXIBICAO, linkWhatsapp } from "@/lib/contato"
 
 export default function Footer() {
   return (
@@ -74,6 +75,26 @@ export default function Footer() {
           <div className="space-y-4">
             <h3 className="font-heading text-sm font-semibold">Contato</h3>
             <ul className="space-y-2.5">
+              <li>
+                <a
+                  href={linkWhatsapp("Olá! Vim pelo site da ItaMakerShop.")}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  WhatsApp {WHATSAPP_EXIBICAO}
+                </a>
+              </li>
+              <li>
+                <a
+                  href={INSTAGRAM_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-sm text-muted-foreground hover:text-foreground transition-colors"
+                >
+                  Instagram {INSTAGRAM_USUARIO}
+                </a>
+              </li>
               <li className="text-sm text-muted-foreground">
                 itagamificaedu@gmail.com
               </li>

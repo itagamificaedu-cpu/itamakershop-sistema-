@@ -105,6 +105,17 @@ export default function Footer() {
           <p className="text-sm text-muted-foreground">
             © {new Date().getFullYear()} ItaMakerShop. Todos os direitos reservados.
           </p>
+          <div className="flex flex-wrap items-center gap-x-5 gap-y-2">
+            <Link href="/privacidade" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Privacidade
+            </Link>
+            <Link href="/termos" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Termos de uso
+            </Link>
+            <Link href="/exclusao-de-dados" className="text-sm text-muted-foreground hover:text-foreground transition-colors">
+              Exclusão de dados
+            </Link>
+          </div>
         </div>
       </div>
     </footer>

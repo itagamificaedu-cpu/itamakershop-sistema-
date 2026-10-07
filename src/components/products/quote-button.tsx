@@ -1,5 +1,6 @@
 import { MessageCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
+import { linkWhatsapp } from "@/lib/contato"
 
 export default function QuoteButton({
   productName,
@@ -10,11 +11,9 @@ export default function QuoteButton({
   className?: string
   size?: "default" | "sm" | "lg"
 }) {
-  const text = encodeURIComponent(`Olá! Gostaria de um orçamento: ${productName}`)
-
   return (
     <a
-      href={`https://wa.me/5588981681498?text=${text}`}
+      href={linkWhatsapp(`Olá! Gostaria de um orçamento: ${productName}`)}
       target="_blank"
       rel="noopener noreferrer"
       className={className}

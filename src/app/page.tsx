@@ -6,6 +6,7 @@ import FeaturedProducts from "@/components/home/featured-products"
 import CategoryGrid from "@/components/home/category-grid"
 import NewsletterSignup from "@/components/home/newsletter-signup"
 import { prisma } from "@/lib/prisma"
+import { linkWhatsapp } from "@/lib/contato"
 
 export const dynamic = "force-dynamic"
 
@@ -54,7 +55,7 @@ export default async function Home() {
                   </Button>
                 </Link>
                 <a
-                  href="https://wa.me/5588981681498?text=Ol%C3%A1!%20Gostaria%20de%20fazer%20um%20or%C3%A7amento%20na%20ItaMakerShop."
+                  href={linkWhatsapp("Olá! Gostaria de fazer um orçamento na ItaMakerShop.")}
                   target="_blank"
                   rel="noopener noreferrer"
                 >

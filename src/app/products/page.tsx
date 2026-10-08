@@ -1,12 +1,7 @@
-import Link from "next/link";
 import { PackageSearch } from "lucide-react";
-import SafeImage from "@/components/ui/safe-image";
 import { prisma } from "@/lib/prisma";
-import AddToCartButton from "@/components/products/add-to-cart-button";
 import CategorySidebar from "@/components/products/category-sidebar";
-import PriceDisplay from "@/components/products/price-display";
-import QuoteButton from "@/components/products/quote-button";
-import { Card, CardContent, CardFooter, CardHeader, CardTitle } from "@/components/ui/card";
+import ProductCard from "@/components/products/product-card";
 
 export const metadata = {
   title: "Todos os Produtos - ItaMakerShop",
@@ -43,7 +38,7 @@ export default async function ProductsPage({
 
   return (
     <>
-      <div className="border-b border-border/70 bg-secondary/30">
+      <div className="border-b border-border/70 bg-secondary/40">
         <div className="container py-10 md:py-14">
           <h1 className="font-heading text-3xl font-bold tracking-tight md:text-4xl">
             Todos os Produtos
@@ -54,58 +49,21 @@ export default async function ProductsPage({
         </div>
       </div>
       <div className="container flex flex-col gap-8 py-10 md:flex-row md:py-14">
-      <CategorySidebar categories={categories} activeCategory={category} q={q} />
-      <div className="flex-1">
-      {products.length === 0 ? (
-        <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-border py-24 text-center">
-          <PackageSearch className="h-10 w-10 text-muted-foreground/60" strokeWidth={1.5} />
-          <p className="text-muted-foreground">Nenhum produto encontrado.</p>
+        <CategorySidebar categories={categories} activeCategory={category} q={q} />
+        <div className="flex-1">
+          {products.length === 0 ? (
+            <div className="flex flex-col items-center justify-center gap-3 rounded-xl border border-dashed border-border py-24 text-center">
+              <PackageSearch className="h-10 w-10 text-muted-foreground/60" strokeWidth={1.5} />
+              <p className="text-muted-foreground">Nenhum produto encontrado.</p>
+            </div>
+          ) : (
+            <div className="grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-3">
+              {products.map((product) => (
+                <ProductCard key={product.id} product={product} />
+              ))}
+            </div>
+          )}
         </div>
-      ) : (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {products.map((product) => (
-            <Card key={product.id} className="group overflow-hidden border-border/70 transition-shadow hover:shadow-lg">
-              <Link href={`/products/${product.id}`} className="block">
-                <div className="relative flex aspect-square items-center justify-center overflow-hidden bg-secondary p-6">
-                  <div className="relative h-full w-full overflow-hidden rounded-full border border-border shadow-sm">
-                    <SafeImage
-                      src={product.images[0]}
-                      alt={product.name}
-                      fill
-                      className="object-cover transition-transform duration-300 group-hover:scale-105"
-                    />
-                  </div>
-                </div>
-              </Link>
-              <CardHeader className="p-4 pb-0">
-                <div className="text-xs font-medium uppercase tracking-wide text-primary">
-                  {product.category.name}
-                </div>
-                <CardTitle className="text-base font-semibold">
-                  <Link href={`/products/${product.id}`} className="hover:text-primary transition-colors">
-                    {product.name}
-                  </Link>
-                </CardTitle>
-              </CardHeader>
-              <CardContent className="p-4 pt-2">
-                <PriceDisplay price={product.price} />
-              </CardContent>
-              <CardFooter className="p-4 pt-0">
-                {product.price > 0 ? (
-                  <AddToCartButton
-                    productId={product.id}
-                    disabled={product.inventory <= 0}
-                    className="w-full"
-                  />
-                ) : (
-                  <QuoteButton productName={product.name} className="w-full" />
-                )}
-              </CardFooter>
-            </Card>
-          ))}
-        </div>
-      )}
-      </div>
       </div>
     </>
   );

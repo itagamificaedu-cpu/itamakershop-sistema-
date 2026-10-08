@@ -37,7 +37,7 @@ export const DATAS: DataComemorativa[] = [
     chamada: "Um presente que fica na mesa do professor",
     texto: "Porta-canetas, calendários, plaquinhas e lembranças com nome ou com a marca da escola.",
     mensagemWhatsapp: "Olá! Quero encomendar uma lembrança para o Dia dos Professores na ItaMakerShop.",
-    palavrasChave: ["presente personalizado", "calendário", "medalha", "ampulheta", "mapa", "pinturinha", "montessori"],
+    palavrasChave: ["presente personalizado", "calendário", "medalha", "ampulheta", "mapa"],
     quando: { dia: 15, mes: 10 },
     antecedenciaDias: 25,
   },

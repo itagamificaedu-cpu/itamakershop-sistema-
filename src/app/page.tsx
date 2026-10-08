@@ -41,20 +41,8 @@ const PASSOS = [
 
 export default async function Home() {
   const datas = datasAtivas().slice(0, 2)
-  const palavras = datas.flatMap((d) => d.palavrasChave)
 
-  const [produtosDasDatas, destaques, recentes, categoriasBrutas] = await Promise.all([
-    palavras.length === 0
-      ? Promise.resolve([])
-      : prisma.product.findMany({
-          where: {
-            NOT: { images: { isEmpty: true } },
-            OR: palavras.map((palavra) => ({ name: { contains: palavra, mode: "insensitive" as const } })),
-          },
-          include: { category: true },
-          orderBy: { createdAt: "desc" },
-          take: 4,
-        }),
+  const [destaques, recentes, categoriasBrutas] = await Promise.all([
     prisma.product.findMany({
       where: { featured: true },
       include: { category: true },
@@ -96,7 +84,7 @@ export default async function Home() {
   return (
     <div className="flex min-h-screen flex-col">
       {/* Datas comemorativas */}
-      <DatasComemorativas datas={datas} produtos={produtosDasDatas} />
+      <DatasComemorativas datas={datas} />
 
       {/* Hero */}
       <section className="relative w-full overflow-hidden bg-accent/60 py-14 md:py-20 lg:py-24">

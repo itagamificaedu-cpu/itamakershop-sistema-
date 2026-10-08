@@ -82,6 +82,24 @@ export default async function ProductsPage({
               <PackageSearch className="h-10 w-10 text-muted-foreground/60" strokeWidth={1.5} />
               <p className="text-muted-foreground">Nenhum produto encontrado.</p>
             </div>
+          ) : dataComemorativa ? (
+            // Em data comemorativa, cada tipo de produção (laser/MDF e 3D) fica em seu próprio bloco
+            <div className="space-y-10">
+              {Array.from(new Set(products.map((p) => p.category.name))).map((nomeCategoria) => (
+                <section key={nomeCategoria}>
+                  <h2 className="mb-5 border-b border-border/70 pb-2 font-heading text-xl font-bold">
+                    {nomeCategoria}
+                  </h2>
+                  <div className="grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-3">
+                    {products
+                      .filter((p) => p.category.name === nomeCategoria)
+                      .map((product) => (
+                        <ProductCard key={product.id} product={product} />
+                      ))}
+                  </div>
+                </section>
+              ))}
+            </div>
           ) : (
             <div className="grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-3">
               {products.map((product) => (

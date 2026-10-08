@@ -1,16 +1,14 @@
 import Link from "next/link"
 import { ArrowRight, CalendarHeart, MessageCircle } from "lucide-react"
 import { Button } from "@/components/ui/button"
-import ProductCard, { type ProdutoCartao } from "@/components/products/product-card"
 import { linkWhatsapp } from "@/lib/contato"
 import { textoContagem, type DataAtiva } from "@/lib/datas-comemorativas"
 
 interface Props {
   datas: DataAtiva[]
-  produtos: ProdutoCartao[]
 }
 
-export default function DatasComemorativas({ datas, produtos }: Props) {
+export default function DatasComemorativas({ datas }: Props) {
   if (datas.length === 0) return null
 
   return (
@@ -54,16 +52,6 @@ export default function DatasComemorativas({ datas, produtos }: Props) {
           ))}
         </div>
 
-        {produtos.length > 0 && (
-          <div className="mt-12">
-            <h3 className="mb-5 text-center font-heading text-xl font-bold">Ideias de presente</h3>
-            <div className="grid grid-cols-2 gap-4 md:gap-6 lg:grid-cols-4">
-              {produtos.slice(0, 4).map((produto) => (
-                <ProductCard key={produto.id} product={produto} />
-              ))}
-            </div>
-          </div>
-        )}
       </div>
     </section>
   )

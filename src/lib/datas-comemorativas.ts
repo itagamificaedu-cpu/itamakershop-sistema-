@@ -27,7 +27,7 @@ export const DATAS: DataComemorativa[] = [
     chamada: "Brinquedos e lembranças que a criançada vai amar",
     texto: "Brinquedos, chaveiros com nome, quebra-cabeças e peças personalizadas em impressão 3D e corte a laser.",
     mensagemWhatsapp: "Olá! Quero encomendar um presente para o Dia das Crianças na ItaMakerShop.",
-    palavrasChave: ["criança", "infantil", "brinquedo", "quebra", "chaveiro", "arte"],
+    palavrasChave: ["quebra-cabe", "jogo da velha", "carro", "pinturinha", "minecraft", "montessori", "cofre"],
     quando: { dia: 12, mes: 10 },
     antecedenciaDias: 25,
   },
@@ -37,7 +37,7 @@ export const DATAS: DataComemorativa[] = [
     chamada: "Um presente que fica na mesa do professor",
     texto: "Porta-canetas, calendários, plaquinhas e lembranças com nome ou com a marca da escola.",
     mensagemWhatsapp: "Olá! Quero encomendar uma lembrança para o Dia dos Professores na ItaMakerShop.",
-    palavrasChave: ["professor", "porta", "calendário", "mesa", "escola"],
+    palavrasChave: ["presente personalizado", "calendário", "medalha", "ampulheta", "mapa", "pinturinha", "montessori"],
     quando: { dia: 15, mes: 10 },
     antecedenciaDias: 25,
   },
@@ -47,7 +47,7 @@ export const DATAS: DataComemorativa[] = [
     chamada: "Decoração e presentes de Natal sob medida",
     texto: "Árvores, enfeites e lembranças natalinas, com o nome da família ou da empresa.",
     mensagemWhatsapp: "Olá! Quero encomendar peças de Natal na ItaMakerShop.",
-    palavrasChave: ["natal", "árvore", "arvore", "enfeite"],
+    palavrasChave: ["natal"],
     quando: { dia: 25, mes: 12 },
     antecedenciaDias: 45,
   },
@@ -57,7 +57,7 @@ export const DATAS: DataComemorativa[] = [
     chamada: "Organização e personalização para o ano letivo",
     texto: "Porta-canetas, chaveiros e itens personalizados para alunos, turmas e escolas.",
     mensagemWhatsapp: "Olá! Quero um orçamento de itens para a Volta às Aulas na ItaMakerShop.",
-    palavrasChave: ["porta", "chaveiro", "escola", "calendário"],
+    palavrasChave: ["calendário", "pinturinha", "montessori", "quebra-cabe", "chaveiro"],
     quando: { dia: 1, mes: 2 },
     antecedenciaDias: 20,
   },
@@ -67,7 +67,7 @@ export const DATAS: DataComemorativa[] = [
     chamada: "Presente com carinho e o nome dela",
     texto: "Lembranças personalizadas, com impressão 3D e corte a laser.",
     mensagemWhatsapp: "Olá! Quero encomendar um presente para o Dia das Mães na ItaMakerShop.",
-    palavrasChave: ["mãe", "chaveiro", "presente"],
+    palavrasChave: ["porta-batom", "presente personalizado", "chaveiro miniatura", "copo"],
     quando: (ano) => domingoDoMes(ano, 5, 2),
     antecedenciaDias: 25,
   },
@@ -77,7 +77,7 @@ export const DATAS: DataComemorativa[] = [
     chamada: "Um presente diferente, feito sob medida",
     texto: "Chaveiros, quadros e lembranças personalizadas para quem você ama.",
     mensagemWhatsapp: "Olá! Quero encomendar um presente para o Dia dos Namorados na ItaMakerShop.",
-    palavrasChave: ["namorad", "coração", "chaveiro", "presente"],
+    palavrasChave: ["porta-batom", "presente personalizado", "chaveiro"],
     quando: { dia: 12, mes: 6 },
     antecedenciaDias: 25,
   },
@@ -87,7 +87,7 @@ export const DATAS: DataComemorativa[] = [
     chamada: "Presente personalizado para o seu pai",
     texto: "Porta-canetas, chaveiros e peças com nome, feitos sob encomenda.",
     mensagemWhatsapp: "Olá! Quero encomendar um presente para o Dia dos Pais na ItaMakerShop.",
-    palavrasChave: ["pai", "porta", "chaveiro", "presente"],
+    palavrasChave: ["halter", "kettlebell", "calendário", "presente personalizado", "chaveiro"],
     quando: (ano) => domingoDoMes(ano, 8, 2),
     antecedenciaDias: 25,
   },
@@ -128,4 +128,9 @@ export function textoContagem(dias: number) {
   if (dias === 0) return "É hoje!"
   if (dias === 1) return "Falta 1 dia"
   return `Faltam ${dias} dias`
+}
+
+/** Busca uma data pelo id (para a página de produtos filtrada). */
+export function buscarData(id: string | undefined) {
+  return DATAS.find((d) => d.id === id)
 }

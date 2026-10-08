@@ -49,10 +49,7 @@ export default async function Home() {
       : prisma.product.findMany({
           where: {
             NOT: { images: { isEmpty: true } },
-            OR: palavras.flatMap((palavra) => [
-              { name: { contains: palavra, mode: "insensitive" as const } },
-              { description: { contains: palavra, mode: "insensitive" as const } },
-            ]),
+            OR: palavras.map((palavra) => ({ name: { contains: palavra, mode: "insensitive" as const } })),
           },
           include: { category: true },
           orderBy: { createdAt: "desc" },
@@ -98,6 +95,9 @@ export default async function Home() {
 
   return (
     <div className="flex min-h-screen flex-col">
+      {/* Datas comemorativas */}
+      <DatasComemorativas datas={datas} produtos={produtosDasDatas} />
+
       {/* Hero */}
       <section className="relative w-full overflow-hidden bg-accent/60 py-14 md:py-20 lg:py-24">
         <div className="container relative px-4 md:px-6">
@@ -112,7 +112,7 @@ export default async function Home() {
                 <h1 className="font-heading text-balance text-4xl font-bold tracking-tight sm:text-5xl md:text-6xl">
                   Presentes e peças <span className="text-primary">feitos sob medida</span>
                 </h1>
-                <p className="max-w-[560px] text-lg text-muted-foreground">
+                <p className="max-w-[560px] text-justify text-lg text-muted-foreground hyphens-auto">
                   Impressão 3D e corte a laser com o seu nome, a sua ideia e a sua cor. Chaveiros, lembranças,
                   brinquedos e peças para escola e empresa.
                 </p>
@@ -202,9 +202,6 @@ export default async function Home() {
         </div>
       </section>
 
-      {/* Datas comemorativas */}
-      <DatasComemorativas datas={datas} produtos={produtosDasDatas} />
-
       {/* Categorias */}
       <section className="w-full bg-background py-14 md:py-20">
         <div className="container px-4 md:px-6">
@@ -260,7 +257,7 @@ export default async function Home() {
                   <Icone className="h-7 w-7" />
                 </span>
                 <h3 className="font-heading text-lg font-bold">{titulo}</h3>
-                <p className="mt-2 text-sm text-muted-foreground">{texto}</p>
+                <p className="mt-2 text-justify text-sm text-muted-foreground hyphens-auto">{texto}</p>
               </div>
             ))}
           </div>

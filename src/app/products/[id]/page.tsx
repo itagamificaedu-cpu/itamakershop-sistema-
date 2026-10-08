@@ -126,7 +126,7 @@ export default async function ProductPage({ params }: { params: Promise<{ id: st
 
           <div>
             <h2 className="text-lg font-semibold">Descrição</h2>
-            <p className="mt-2 text-gray-500">{product.description}</p>
+            <p className="mt-2 text-justify text-gray-500 hyphens-auto">{product.description}</p>
           </div>
 
           <div className="flex flex-col space-y-3 sm:flex-row sm:space-x-3 sm:space-y-0">

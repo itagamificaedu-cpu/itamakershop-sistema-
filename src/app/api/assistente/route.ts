@@ -94,7 +94,8 @@ export async function POST(request: Request) {
       },
       body: JSON.stringify({
         model: MODELO_ASSISTENTE,
-        max_tokens: 400,
+        max_tokens: 600,
+        thinking: { type: "disabled" },
         system: sistema,
         messages: corpo.mensagens,
       }),
@@ -112,6 +113,9 @@ export async function POST(request: Request) {
       .map((bloco) => bloco.text ?? "")
       .join("\n")
       .trim()
+
+    // O chat mostra texto simples, então tiramos qualquer formatação markdown.
+    texto = texto.replace(/\*\*(.+?)\*\*/g, "$1").replace(/^#+\s*/gm, "").replace(/^\s*[*]\s+/gm, "- ")
 
     let linkZap: string | undefined
     const inicio = texto.indexOf(MARCADOR_WHATSAPP)

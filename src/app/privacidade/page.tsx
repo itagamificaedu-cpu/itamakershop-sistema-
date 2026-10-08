@@ -38,6 +38,12 @@ export default function PaginaPrivacidade() {
             mensagens.
           </li>
           <li>
+            <strong>Assistente virtual do site:</strong> as perguntas que você escreve no chat são
+            enviadas a um serviço de inteligência artificial (Anthropic) só para gerar a resposta.
+            A gente não guarda a conversa e não pede dados pessoais no chat. Evite escrever senha,
+            CPF ou dados de cartão.
+          </li>
+          <li>
             <strong>Newsletter:</strong> o e-mail que você cadastrar no rodapé do site.
           </li>
         </ul>
@@ -60,7 +66,7 @@ export default function PaginaPrivacidade() {
         <h2>Com quem compartilhamos</h2>
         <p>
           Só com quem precisa para a loja funcionar: Mercado Pago (pagamento), Melhor Envio e
-          transportadoras (entrega), Meta (Instagram) e o serviço de hospedagem do site. Cada um
+          transportadoras (entrega), Meta (Instagram), Anthropic (assistente virtual) e o serviço de hospedagem do site. Cada um
           trata os dados conforme as próprias regras de privacidade.
         </p>
       </section>

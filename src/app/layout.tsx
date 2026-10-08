@@ -5,6 +5,7 @@ import Header from "@/components/layout/header";
 import Footer from "@/components/layout/footer";
 import PromoBar from "@/components/layout/promo-bar";
 import BotaoWhatsappFlutuante from "@/components/layout/botao-whatsapp-flutuante";
+import AssistenteSite from "@/components/layout/assistente-site";
 import { SITE_URL } from "@/lib/contato";
 import Providers from "@/components/providers";
 
@@ -46,6 +47,7 @@ export default function RootLayout({
             <main className="flex-grow">{children}</main>
             <Footer />
             <BotaoWhatsappFlutuante />
+            <AssistenteSite />
           </div>
         </Providers>
       </body>

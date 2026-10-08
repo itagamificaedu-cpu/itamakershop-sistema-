@@ -5,10 +5,12 @@ import { Button } from "@/components/ui/button"
 import SafeImage from "@/components/ui/safe-image"
 import FeaturedProducts from "@/components/home/featured-products"
 import CategoryGrid from "@/components/home/category-grid"
+import DatasComemorativas from "@/components/home/datas-comemorativas"
 import NewsletterSignup from "@/components/home/newsletter-signup"
 import { prisma } from "@/lib/prisma"
 import { linkWhatsapp } from "@/lib/contato"
 import { PIX_DISCOUNT_LABEL } from "@/lib/pricing"
+import { datasAtivas } from "@/lib/datas-comemorativas"
 
 export const dynamic = "force-dynamic"
 
@@ -38,7 +40,24 @@ const PASSOS = [
 ]
 
 export default async function Home() {
-  const [destaques, recentes, categoriasBrutas] = await Promise.all([
+  const datas = datasAtivas().slice(0, 2)
+  const palavras = datas.flatMap((d) => d.palavrasChave)
+
+  const [produtosDasDatas, destaques, recentes, categoriasBrutas] = await Promise.all([
+    palavras.length === 0
+      ? Promise.resolve([])
+      : prisma.product.findMany({
+          where: {
+            NOT: { images: { isEmpty: true } },
+            OR: palavras.flatMap((palavra) => [
+              { name: { contains: palavra, mode: "insensitive" as const } },
+              { description: { contains: palavra, mode: "insensitive" as const } },
+            ]),
+          },
+          include: { category: true },
+          orderBy: { createdAt: "desc" },
+          take: 4,
+        }),
     prisma.product.findMany({
       where: { featured: true },
       include: { category: true },
@@ -80,10 +99,7 @@ export default async function Home() {
   return (
     <div className="flex min-h-screen flex-col">
       {/* Hero */}
-      <section className="relative w-full overflow-hidden bg-gradient-to-b from-accent/70 via-background to-background py-14 md:py-20 lg:py-24">
-        <div className="absolute inset-0 bg-grid-pattern opacity-60 [mask-image:radial-gradient(ellipse_60%_60%_at_50%_0%,#000_20%,transparent_100%)]" />
-        <div className="absolute -top-24 right-0 h-[420px] w-[420px] rounded-full bg-primary/20 blur-[110px]" />
-
+      <section className="relative w-full overflow-hidden bg-accent/60 py-14 md:py-20 lg:py-24">
         <div className="container relative px-4 md:px-6">
           <div className="grid items-center gap-12 lg:grid-cols-2 lg:gap-16">
             <div className="flex flex-col justify-center space-y-6 animate-fade-up">
@@ -186,6 +202,9 @@ export default async function Home() {
         </div>
       </section>
 
+      {/* Datas comemorativas */}
+      <DatasComemorativas datas={datas} produtos={produtosDasDatas} />
+
       {/* Categorias */}
       <section className="w-full bg-background py-14 md:py-20">
         <div className="container px-4 md:px-6">
@@ -262,7 +281,6 @@ export default async function Home() {
 
       {/* Newsletter */}
       <section className="relative w-full overflow-hidden bg-primary py-14 text-primary-foreground md:py-20">
-        <div className="absolute inset-0 bg-grid-pattern opacity-10" />
         <div className="container relative px-4 md:px-6">
           <div className="flex flex-col items-center justify-center space-y-4 text-center">
             <h2 className="font-heading text-3xl font-bold tracking-tight md:text-4xl">Fique por dentro</h2>

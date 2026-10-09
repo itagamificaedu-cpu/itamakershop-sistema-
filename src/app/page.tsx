@@ -14,6 +14,9 @@ import { datasAtivas } from "@/lib/datas-comemorativas"
 
 export const dynamic = "force-dynamic"
 
+// A vitrine "Produtos em destaque" mostra só impressão 3D, sem misturar com MDF.
+const CATEGORIA_VITRINE = "Impressão 3D"
+
 const DIFERENCIAIS = [
   { icone: Percent, titulo: `Pix com ${PIX_DISCOUNT_LABEL} off`, texto: "Desconto no pagamento à vista" },
   { icone: CreditCard, titulo: "Até 3x sem juros", texto: "Pelo Mercado Pago" },
@@ -44,12 +47,13 @@ export default async function Home() {
 
   const [destaques, recentes, categoriasBrutas] = await Promise.all([
     prisma.product.findMany({
-      where: { featured: true },
+      where: { featured: true, category: { name: CATEGORIA_VITRINE } },
       include: { category: true },
       orderBy: { createdAt: "desc" },
       take: 8,
     }),
     prisma.product.findMany({
+      where: { category: { name: CATEGORIA_VITRINE } },
       include: { category: true },
       orderBy: { createdAt: "desc" },
       take: 24,
@@ -211,7 +215,7 @@ export default async function Home() {
           <div className="flex flex-col items-center space-y-3 text-center">
             <h2 className="font-heading text-3xl font-bold tracking-tight md:text-4xl">Produtos em destaque</h2>
             <p className="max-w-[600px] text-muted-foreground md:text-lg">
-              Os mais pedidos e as novidades da loja
+              Os mais pedidos e as novidades em impressão 3D
             </p>
           </div>
           <div className="mt-10">
